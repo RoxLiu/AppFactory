@@ -20,10 +20,10 @@ public class TOrder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;  // 此处使用id字段，是因为前端js中有些地方固定使用id作标识。
-    private int shopId;
-    private int productionId;
+    private String shopId;
+    private String productionId;
     private int type;
-    private int userId;
+    private String userId;
     private int status;// 正常状态：1，删除状态:2,完成状态：3，不可为空
     private String note;
     private int productionAmount;
@@ -50,21 +50,21 @@ public class TOrder implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "order_shop_id")
-    public int getShopId() {
+    @Column(name = "shop_id")
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(int shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
     }
 
     @Column(name = "order_production_id")
-    public int getProductionId() {
+    public String getProductionId() {
         return productionId;
     }
 
-    public void setProductionId(int productionId) {
+    public void setProductionId(String productionId) {
         this.productionId = productionId;
     }
 
@@ -78,11 +78,11 @@ public class TOrder implements Serializable {
     }
 
     @Column(name = "order_userid")
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

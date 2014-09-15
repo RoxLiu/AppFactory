@@ -116,7 +116,7 @@ public class LoginController extends BaseController{
             if(user.getType() == TUser.TYPE_SUPPER_ADMINISTRATOR || user.getType() == TUser.TYPE_APP_ADMINISTRATOR) {
                 modelMap.put("user", user);
 
-                TShopAccount shop = systemService.findUniqueByProperty(TShopAccount.class, "id", user.getShopId());
+                TShopAccount shop = systemService.findUniqueByProperty(TShopAccount.class, "id", Integer.parseInt(user.getShopId()));
                 if(shop != null) {
                     modelMap.put("shopName", shop.getShopName());
                 }
@@ -185,10 +185,10 @@ public class LoginController extends BaseController{
      * @param user
      * @return
      */
-    private List<TSFunction> getFunctionList(TUser user) {
-        List<TSFunction> list = new ArrayList<TSFunction>(5);
+    private List<FunctionItem> getFunctionList(TUser user) {
+        List<FunctionItem> list = new ArrayList<FunctionItem>(5);
         if(user.getType() == TUser.TYPE_SUPPER_ADMINISTRATOR) {
-            TSFunction function = new TSFunction();
+            FunctionItem function = new FunctionItem();
             function.setFunctionName("账号管理");
             function.setFunctionUrl("userController.do?userList");
             list.add(function);
@@ -202,28 +202,36 @@ public class LoginController extends BaseController{
             List<TShopModule> modules = systemService.findByProperty(TShopModule.class, "shopId", user.getShopId());
 
             for(TShopModule module : modules) {
-                TSFunction function = new TSFunction();
-                switch (module.getModuleId()) {
-                    case TModule.TYPE_NEWS:
-                        function.setFunctionName(module.getModuleName());
-                        function.setFunctionUrl("articleController.do?articleList&connectId=" + module.getId());
-                        list.add(function);
-                        break;
-                    case TModule.TYPE_SHOP:
-                        function.setFunctionName(module.getModuleName());
-                        function.setFunctionUrl("shopController.do?shopList");
-                        list.add(function);
+                FunctionItem function = new FunctionItem();
+                if(TModule.TYPE_NEWS.equals(module.getModuleId())) {
+                    function.setFunctionName(module.getModuleName());
+                    function.setFunctionUrl("articleController.do?articleList&connectId=" + module.getId());
+                    list.add(function);
+                } else if(TModule.TYPE_SHOP.equals(module.getModuleId())) {
+                    function.setFunctionName(module.getModuleName());
+                    function.setFunctionUrl("shopController.do?shopList&connectId=" + module.getId());
+                    list.add(function);
+                } else if(TModule.TYPE_PERSONAL.equals(module.getModuleId())) {
+                    function.setFunctionName(module.getModuleName());
+                    function.setFunctionUrl("personController.do?personList&connectId=" + module.getId());
+                    list.add(function);
                 }
             }
 
+            FunctionItem function = new FunctionItem();
+            function.setFunctionName("广告管理");
+            function.setFunctionUrl("advertController.do?advertList");
+//            function.setTSIcon();
+            list.add(function);
+
             //
-            TSFunction function = new TSFunction();
+            function = new FunctionItem();
             function.setFunctionName("账号管理");
             function.setFunctionUrl("userController.do?userList");
 //            function.setTSIcon();
             list.add(function);
 
-            function = new TSFunction();
+            function = new FunctionItem();
             function.setFunctionName("订单管理");
             function.setFunctionUrl("orderController.do?orderList");
             list.add(function);

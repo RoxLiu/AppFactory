@@ -21,7 +21,7 @@ public class TUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;  // 此处使用id字段，是因为前端js中有些地方固定使用id作标识。
-    private int shopId;
+    private String shopId;
     private String accountName;
     private String phone;
     private String email;// 邮箱
@@ -51,11 +51,11 @@ public class TUser implements Serializable {
     }
 
     @Column(name = "user_shopid")
-    public int getShopId() {
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(int shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
     }
 

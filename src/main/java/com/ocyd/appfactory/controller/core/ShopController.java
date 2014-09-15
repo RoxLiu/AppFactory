@@ -10,7 +10,6 @@ import com.ocyd.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import com.ocyd.jeecgframework.core.common.model.json.AjaxJson;
 import com.ocyd.jeecgframework.core.common.model.json.DataGrid;
 import com.ocyd.jeecgframework.core.constant.Globals;
-import com.ocyd.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import com.ocyd.jeecgframework.core.util.ResourceUtil;
 import com.ocyd.jeecgframework.tag.core.easyui.TagUtil;
 import org.apache.log4j.Logger;
@@ -64,10 +63,9 @@ public class ShopController {
      * @return
      */
     @RequestMapping(params = "shopList")
-    public String shopList(HttpServletRequest request) {
-        TUser user = ResourceUtil.getCurrentSessionUser();
-        request.setAttribute("user", user);
-        return "shop/shopList";
+    public String shopList(HttpServletRequest request, int connectId) {
+        request.setAttribute("connectId", connectId);
+        return "shop/shopInfoList";
     }
 
 
@@ -78,12 +76,9 @@ public class ShopController {
      * @param dataGrid
      */
     @RequestMapping(params = "datagrid")
-    public void datagrid(TUser user, HttpServletResponse response, DataGrid dataGrid) {
+    public void datagrid(int connectId, HttpServletResponse response, DataGrid dataGrid) {
         CriteriaQuery cq = new CriteriaQuery(TShopInfo.class, dataGrid);
-        //查询条件组装器
-        HqlGenerateUtil.installHql(cq, user);
-
-        cq.eq("accountId", user.getShopId());
+        cq.eq("connectId", "" + connectId);
         cq.eq("status", TShopInfo.STATUS_NORMAL);
         cq.add();
         this.shopService.getDataGridReturn(cq, true);
@@ -135,10 +130,10 @@ public class ShopController {
             found.setLastUpdate(date);
 
             shopService.updateEntity(found);
-            message = "商家[: " + found.getAccountId() + "]更新成功.";
+            message = "商家[" + found.getName() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
-            shopInfo.setAccountId(ResourceUtil.getCurrentSessionUser().getShopId());
+            shopInfo.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             shopInfo.setStatus(1); // 正常。
             shopInfo.setType(2); //设为普通用户
 
@@ -147,7 +142,7 @@ public class ShopController {
             shopInfo.setCreateTime(date);
             shopInfo.setLastUpdate(date);
             shopService.save(shopInfo);
-            message = "商家[: " + shopInfo.getAccountId() + "]添加成功";
+            message = "商家[" + shopInfo.getName() + "]添加成功";
 
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
@@ -175,7 +170,7 @@ public class ShopController {
         shopService.delete(shopInfo);
 
 
-        message = "商家[" + shopInfo.getAccountId() + "]删除成功.";
+        message = "商家[" + shopInfo.getShopId() + "]删除成功.";
         j.setMsg(message);
         return j;
     }
@@ -201,7 +196,7 @@ public class ShopController {
     public void shopModuleDataGrid(int shopId, HttpServletResponse response, DataGrid dataGrid) {
         CriteriaQuery cq = new CriteriaQuery(TShopModule.class, dataGrid);
 
-        cq.eq("shopId", shopId);
+        cq.eq("shopId", "" + shopId);
         cq.eq("status", TShopModule.STATUS_NORMAL);
         cq.add();
         this.shopService.getDataGridReturn(cq, true);

@@ -80,7 +80,7 @@ function submit()
 	});
 	if (submit) {
 		hideTop();
-		loading('正在登录, 请稍候..', 1);
+		loading('请等待..', 1);
 		setTimeout("unloading()", 1000);
 		setTimeout("Login()", 1000);
 	}

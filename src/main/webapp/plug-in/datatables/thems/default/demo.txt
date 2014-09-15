@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<%@include file="/context/mytags.jsp"%>
+<%@include file="/webpage/context/mytags.jsp"%>
 <html>
  <head>
   <title>bootstarp测试</title>

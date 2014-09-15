@@ -220,13 +220,6 @@ public interface CommonService {
 	public <T> List<T> getListByCriteriaQuery(final CriteriaQuery cq,
 			Boolean ispage);
 
-	/**
-	 * 文件上传
-	 * 
-	 * @param request
-	 */
-	public <T> T uploadFile(UploadFile uploadFile);
-
 	public HttpServletResponse viewOrDownloadFile(UploadFile uploadFile);
 
 	/**

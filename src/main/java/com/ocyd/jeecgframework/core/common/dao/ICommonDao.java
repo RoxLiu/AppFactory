@@ -26,11 +26,7 @@ public interface ICommonDao extends IGenericBaseCommonDao{
 	 * 检查用户是否存在
 	 * */
 	public TUser getUserByUserIdAndUserNameExits(TUser user);
-	/**
-	 * 文件上传
-	 * @param request
-	 */
-	public <T> T  uploadFile(UploadFile uploadFile);
+
 	/**
 	 * 文件上传或预览
 	 * @param uploadFile

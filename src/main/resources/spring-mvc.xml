@@ -57,8 +57,6 @@
     <!-- Bean解析器,级别高于默认解析器,寻找bean对象进行二次处理 -->
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0">
     </bean>
-    <!-- Excel 处理 根据用户输入进行对象处理 -->
-    <bean id="jeecgExcelView" class="com.ocyd.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
 	<!-- 方言 -->
 	<bean id="dialect" class="com.ocyd.jeecgframework.core.common.hibernate.dialect.DialectFactoryBean">
 		<property name="dbType" value="${jdbc.dbType}" />

@@ -138,17 +138,19 @@ public class AuthInterceptor implements HandlerInterceptor {
 			return true;
 		}
 
-		int userid = ClientManager.getInstance().getClient(ContextHolderUtils.getSession().getId()).getUser().getId();
-		//requestPath=requestPath.substring(0, requestPath.indexOf("?")+1);
-		String sql = "SELECT DISTINCT f.id FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
-					" WHERE f.id=rf.functionid AND rf.roleid=ru.roleid AND " +
-					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'"; 
-		List list = this.systemService.findListBySql(sql);
-		if(list.size()==0){
-			return false;
-		}else{
-			return true;
-		}
+        return true;
+        //TODO:暂时取消鉴权。
+//		int userid = ClientManager.getInstance().getClient(ContextHolderUtils.getSession().getId()).getUser().getId();
+//		//requestPath=requestPath.substring(0, requestPath.indexOf("?")+1);
+//		String sql = "SELECT DISTINCT f.id FROM t_s_function f,t_s_role_function  rf,t_s_role_user ru " +
+//					" WHERE f.id=rf.functionid AND rf.roleid=ru.roleid AND " +
+//					"ru.userid='"+userid+"' AND f.functionurl like '"+requestPath+"%'";
+//		List list = this.systemService.findListBySql(sql);
+//		if(list.size()==0){
+//			return false;
+//		}else{
+//			return true;
+//		}
 	}
 	/**
 	 * 转发

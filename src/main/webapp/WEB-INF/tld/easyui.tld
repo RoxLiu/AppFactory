@@ -10,7 +10,7 @@
 	<tag>
 		<name>base</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.BaseTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>父类标签生成JS CSS</description>
 		<attribute>
 			<name>type</name>
@@ -22,7 +22,7 @@
 	<tag>
 		<name>datagrid</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>数据列表</description>
 		<attribute>
 			<name>name</name>
@@ -167,7 +167,7 @@
 	<tag>
 		<name>dgCol</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridColumnTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>列表字段</description>
 		<attribute>
 			<name>title</name>
@@ -306,7 +306,7 @@
 	<tag>
 		<name>dgDelOpt</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridDelOptTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>列表删除操作</description>
 		<attribute>
 			<name>url</name>
@@ -345,7 +345,7 @@
 	<tag>
 		<name>dgDefOpt</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridDefOptTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>列表URL操作</description>
 		<attribute>
 			<name>url</name>
@@ -374,7 +374,7 @@
 	<tag>
 		<name>dgOpenOpt</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridOpenOptTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>弹出窗模式操作</description>
 		<attribute>
 			<name>url</name>
@@ -418,7 +418,7 @@
 	<tag>
 		<name>dgFunOpt</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridFunOptTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>列表自定义函数操作</description>
 		<attribute>
 			<name>title</name>
@@ -447,7 +447,7 @@
 	<tag>
 		<name>dgToolBar</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridToolBarTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>列表工具条标签</description>
 		<attribute>
 			<name>url</name>
@@ -494,7 +494,7 @@
 	<tag>
 		<name>dgConfOpt</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DataGridConfOptTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>列表询问操作</description>
 		<attribute>
 			<name>url</name>
@@ -529,7 +529,7 @@
 	<tag>
 		<name>comboBox</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.ComboBoxTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>下拉选择框</description>
 		<attribute>
 			<name>name</name>
@@ -574,7 +574,7 @@
 	<tag>
 		<name>comboTree</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.ComboTreeTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>下拉树形选择框</description>
 		<attribute>
 			<name>name</name>
@@ -613,7 +613,7 @@
 	<tag>
 		<name>tabs</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.TabsTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>选项卡标签</description>
 		<attribute>
 			<name>id</name>
@@ -680,7 +680,7 @@
 	<tag>
 		<name>tab</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.TabTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>选项卡选项标签</description>
 		<attribute>
 			<name>id</name>
@@ -728,7 +728,7 @@
 	<tag>
 		<name>upload</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.UploadTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>选项卡选项标签</description>
 		<attribute>
 			<name>id</name>
@@ -807,7 +807,7 @@
 	<tag>
 		<name>ckfinder</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.CkfinderTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>ckfinder标签</description>
 		<attribute>
 			<name>name</name>
@@ -850,7 +850,7 @@
 	<tag>
 		<name>ckeditor</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.CkeditorTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>ckeditor标签</description>
 		<attribute>
 			<name>name</name>
@@ -878,7 +878,7 @@
 	<tag>
 		<name>formvalid</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.FormValidationTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<description>表单验证标签</description>
 		<attribute>
 			<name>action</name>
@@ -950,7 +950,7 @@
 	<tag>
 		<name>choose</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.ChooseTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<small-icon>111</small-icon>
 		<description>选则操作</description>
 		<attribute>
@@ -1032,48 +1032,16 @@
 	<tag>
 		<name>colorchange</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.ColorChangeTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<display-name>改变HTML控件颜色</display-name>
 		<small-icon>111</small-icon>
 		<description>改变HTML控件颜色</description>
-	</tag>
-	<!-- 菜单生成控件 -->
-	<tag>
-		<name>menu</name>
-		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.MenuTag</tag-class>
-		<body-content>jsp</body-content>
-		<display-name>左侧菜单生成控件</display-name>
-		<small-icon>111</small-icon>
-		<description>左侧菜单生成控件可选样式easyui,bootstrap,json</description>
-		<attribute>
-			<name>style</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>菜单样式</description>
-		</attribute>
-		<attribute>
-			<name>parentFun</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>一级菜单</description>
-		</attribute>
-		<attribute>
-			<name>childFun</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>二级菜单</description>
-		</attribute>
-		<attribute>
-			<name>menuFun</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>菜单信息</description>
-		</attribute>
 	</tag>
 	<!-- 自动完成 -->
 	<tag>
 		<name>autocomplete</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.AutocompleteTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<display-name>自动完成控件</display-name>
 		<small-icon>111</small-icon>
 		<description>数据自动补全</description>
@@ -1186,94 +1154,11 @@
 			<description>最多显示条数</description>
 		</attribute>
 	</tag>
-	<!-- 选择下拉框 -->
-	<tag>
-		<name>dictSelect</name>
-		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.DictSelectTag</tag-class>
-		<body-content>jsp</body-content>
-		<display-name>下拉选择控件</display-name>
-		<small-icon>111</small-icon>
-		<description>下拉选择控件</description>
-		<attribute>
-			<name>typeGroupCode</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>数据字典类型编码</description>
-		</attribute>
-		<attribute>
-			<name>field</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>SELECT表单的Name</description>
-		</attribute>
-		<attribute>
-			<name>extendJson</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>扩展参数(json格式)</description>
-		</attribute>
-		<attribute>
-			<name>id</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>SELECT表单的Id</description>
-		</attribute>
-		<attribute>
-			<name>defaultVal</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>默认选择的Value</description>
-		</attribute>
-		<attribute>
-			<name>divClass</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>DIV样式</description>
-		</attribute>
-		<attribute>
-			<name>labelClass</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>Label样式</description>
-		</attribute>
-		<attribute>
-			<name>title</name>
-			<required>false</required>
-			<rtexprvalue>true</rtexprvalue>
-			<description>Label显示值</description>
-		</attribute>
-		<attribute>
-			<name>hasLabel</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>是否显示Label</description>
-		</attribute>
-		<attribute>
-			<name>type</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>控件格式 select|radio|checkbox</description>
-		</attribute>
-
-		<attribute>
-			<name>dictTable</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>自定义字典表</description>
-		</attribute>
-		<attribute>
-			<name>dictField</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>自定义字典表的匹配字段-字典的编码值</description>
-		</attribute>
-		<attribute>
-			<name>dictText</name>
-			<rtexprvalue>true</rtexprvalue>
-			<description>自定义字典表的显示文本-字典的显示值</description>
-		</attribute>
-	</tag>
 	<!-- 按钮权限标签 -->
 	<tag>
 		<name>authFilter</name>
 		<tag-class>com.ocyd.jeecgframework.tag.core.easyui.AuthFilterTag</tag-class>
-		<body-content>jsp</body-content>
+		<body-content>JSP</body-content>
 		<display-name>按钮权限标签</display-name>
 		<description>将当前用户对应菜单中不拥有按钮权限的按钮和操作隐藏</description>
 		<attribute>

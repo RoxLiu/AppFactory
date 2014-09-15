@@ -7,10 +7,12 @@ import com.ocyd.jeecgframework.core.common.dao.IGenericBaseCommonDao;
 import com.ocyd.jeecgframework.core.common.model.common.UploadFile;
 import com.ocyd.jeecgframework.core.common.model.json.ComboTree;
 import com.ocyd.jeecgframework.core.common.model.json.ImportFile;
-import com.ocyd.jeecgframework.core.extend.swftools.SwfToolsUtil;
 import com.ocyd.jeecgframework.core.extend.template.DataSourceMap;
 import com.ocyd.jeecgframework.core.extend.template.Template;
-import com.ocyd.jeecgframework.core.util.*;
+import com.ocyd.jeecgframework.core.util.ConvertUtils;
+import com.ocyd.jeecgframework.core.util.DataUtils;
+import com.ocyd.jeecgframework.core.util.GenericsUtils;
+import com.ocyd.jeecgframework.core.util.ReflectHelper;
 import com.ocyd.jeecgframework.tag.core.easyui.TagUtil;
 import com.ocyd.jeecgframework.tag.vo.easyui.ComboTreeModel;
 import org.dom4j.Document;
@@ -20,9 +22,6 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,118 +70,6 @@ public class CommonDao extends GenericBaseCommonDao implements ICommonDao, IGene
 			save(user);
 		}
     }
-	/**
-	 * 文件上传
-	 * 
-	 * @param request
-	 * @throws Exception
-	 */
-	public Object uploadFile(UploadFile uploadFile) {
-		Object object = uploadFile.getObject();
-		if(uploadFile.getFileKey()!=null)
-		{
-			updateEntity(object);
-		}
-		else {
-		try {
-			uploadFile.getMultipartRequest().setCharacterEncoding("UTF-8");
-			MultipartHttpServletRequest multipartRequest = uploadFile.getMultipartRequest();
-			ReflectHelper reflectHelper = new ReflectHelper(uploadFile.getObject());
-			String uploadbasepath = uploadFile.getBasePath();// 文件上传根目录
-			if (uploadbasepath == null) {
-				uploadbasepath = ResourceUtil.getConfigByName("uploadpath");
-			}
-			Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
-			// 文件数据库保存路径
-			String path = uploadbasepath + "/";// 文件保存在硬盘的相对路径
-			String realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + "/" + path;// 文件的硬盘真实路径
-			File file = new File(realPath);
-			if (!file.exists()) {
-				file.mkdirs();// 创建根目录
-			}
-			if (uploadFile.getCusPath() != null) {
-				realPath += uploadFile.getCusPath() + "/";
-				path += uploadFile.getCusPath() + "/";
-				file = new File(realPath);
-				if (!file.exists()) {
-					file.mkdirs();// 创建文件自定义子目录
-				}
-			}
-			else {
-				realPath += DataUtils.getDataString(DataUtils.yyyyMMdd) + "/";
-				path += DataUtils.getDataString(DataUtils.yyyyMMdd) + "/";
-				file = new File(realPath);
-				if (!file.exists()) {
-					file.mkdir();// 创建文件时间子目录
-				}
-			}
-			String entityName = uploadFile.getObject().getClass().getSimpleName();
-			// 设置文件上传路径
-			if (entityName.equals("TSTemplate")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + ResourceUtil.getConfigByName("templatepath") + "/";
-				path = ResourceUtil.getConfigByName("templatepath") + "/";
-			} else if (entityName.equals("TSIcon")) {
-				realPath = uploadFile.getMultipartRequest().getSession().getServletContext().getRealPath("/") + uploadFile.getCusPath() + "/";
-				path = uploadFile.getCusPath() + "/";
-			}
-			String fileName = "";
-			String swfName = "";
-			for (Map.Entry<String, MultipartFile> entity : fileMap.entrySet()) {
-				MultipartFile mf = entity.getValue();// 获取上传文件对象
-				fileName = mf.getOriginalFilename();// 获取文件名
-				swfName = PinyinUtil.getPinYinHeadChar(ConvertUtils.replaceBlank(FileUtils.getFilePrefix(fileName)));// 取文件名首字母作为SWF文件名
-				String extend = FileUtils.getExtend(fileName);// 获取文件扩展名
-				String myfilename="";
-				String noextfilename="";//不带扩展名
-				if(uploadFile.isRename())
-				{
-				   
-				   noextfilename=DataUtils.getDataString(DataUtils.yyyymmddhhmmss)+StringUtil.random(8);//自定义文件名称
-				   myfilename=noextfilename+"."+extend;//自定义文件名称
-				}
-				else {
-				  myfilename=fileName;
-				}
-				
-				String savePath = realPath + myfilename;// 文件保存全路径
-				String fileprefixName = FileUtils.getFilePrefix(fileName);
-				if (uploadFile.getTitleField() != null) {
-					reflectHelper.setMethodValue(uploadFile.getTitleField(), fileprefixName);// 动态调用set方法给文件对象标题赋值
-				}
-				if (uploadFile.getExtend() != null) {
-					// 动态调用 set方法给文件对象内容赋值
-					reflectHelper.setMethodValue(uploadFile.getExtend(), extend);
-				}
-				if (uploadFile.getByteField() != null) {
-					// 二进制文件保存在数据库中
-//					reflectHelper.setMethodValue(uploadFile.getByteField(), StreamUtils.InputStreamTOByte(mf.getInputStream()));
-				}
-				File savefile = new File(savePath);
-				if (uploadFile.getRealPath() != null) {
-					// 设置文件数据库的物理路径
-					reflectHelper.setMethodValue(uploadFile.getRealPath(), path + myfilename);
-				}
-				saveOrUpdate(object);
-				// 文件拷贝到指定硬盘目录
-				FileCopyUtils.copy(mf.getBytes(), savefile);
-//				if (uploadFile.getSwfpath() != null) {
-//					// 转SWF
-//					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + swfName + ".swf");
-//					SwfToolsUtil.convert2SWF(savePath);
-//				}
-//				FileCopyUtils.copy(mf.getBytes(), savefile);
-				if (uploadFile.getSwfpath() != null) {
-					// 转SWF
-					reflectHelper.setMethodValue(uploadFile.getSwfpath(), path + FileUtils.getFilePrefix(myfilename) + ".swf");
-					SwfToolsUtil.convert2SWF(savePath);
-				}
-
-			}
-		} catch (Exception e1) {
-		}
-		}
-		return object;
-	}
 
 	/**
 	 * 文件下载或预览

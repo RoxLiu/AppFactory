@@ -74,7 +74,7 @@ public class ArticleController {
     public void datagrid(int connectId, HttpServletResponse response, DataGrid dataGrid) {
         TUser user = ResourceUtil.getCurrentSessionUser();
         CriteriaQuery cq = new CriteriaQuery(TArticle.class, dataGrid);
-        cq.eq("shopId", user.getShopId());
+//        cq.eq("shopId", user.getShopId());
         cq.eq("connectId", connectId);
         cq.eq("status", TArticle.STATUS_NORMAL);
         cq.add();
@@ -99,6 +99,7 @@ public class ArticleController {
             if(relative != null) {
                 String savePath = request.getSession().getServletContext().getRealPath(relative);
                 article.setContent(readHtmlFile(savePath));
+                article.setWebLink(article.getContent());
             }
         }
 
@@ -132,16 +133,16 @@ public class ArticleController {
             saveHtmlFile(filePath, article.getContent());
 
             found.setContent(relative);
+            found.setWebLink(found.getContent());
             found.setIcon(article.getIcon());
             found.setTitle(article.getTitle());
             found.setDescription(article.getDescription());
             found.setKeyWords(article.getKeyWords());
-            found.setWebLink(article.getWebLink());
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = formatter.format(new Date());
             found.setLastUpdate(date);
-            found.setPublishUserId(user.getId());
+            found.setPublishUserId("" + user.getId());
             systemService.updateEntity(found);
             message = "[" + found.getTitle() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
@@ -154,6 +155,7 @@ public class ArticleController {
                 saveHtmlFile(savePath, article.getContent());
 
                 article.setContent(saveUrl);
+                article.setWebLink(article.getContent());
             }
 
             article.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
@@ -162,9 +164,10 @@ public class ArticleController {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = formatter.format(new Date());
             article.setCreateTime(date);
+            article.setPublishTime(date);
             article.setLastUpdate(date);
-            article.setCreateUserId(user.getId());
-            article.setPublishUserId(user.getId());
+            article.setCreateUserId("" + user.getId());
+            article.setPublishUserId("" + user.getId());
             systemService.save(article);
             message = "[" + article.getTitle() + "]添加成功.";
 

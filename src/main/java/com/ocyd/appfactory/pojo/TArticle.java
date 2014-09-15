@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 用户表
+ * 文章表
  */
 @Entity
 @Table(name = "article_list")
@@ -20,7 +20,7 @@ public class TArticle implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;  // 此处使用id字段，是因为前端js中有些地方固定使用id作标识。
-    private int shopId;
+    private String shopId;
     private int connectId;
     private int categoryId;
     private String icon;
@@ -29,8 +29,8 @@ public class TArticle implements Serializable {
     private String content;
     private String keyWords;
     private int status;
-    private int createUserId;
-    private int publishUserId;
+    private String createUserId;
+    private String publishUserId;
     private String createTime;
     private String publishTime;
     private String lastUpdate;
@@ -52,12 +52,12 @@ public class TArticle implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "article_shop_id")
-    public int getShopId() {
+    @Column(name = "shop_id")
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(int shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
     }
 
@@ -134,20 +134,20 @@ public class TArticle implements Serializable {
     }
 
     @Column(name = "article_create_userid")
-    public int getCreateUserId() {
+    public String getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(int createUserId) {
+    public void setCreateUserId(String createUserId) {
         this.createUserId = createUserId;
     }
 
     @Column(name = "article_publish_userid")
-    public int getPublishUserId() {
+    public String getPublishUserId() {
         return publishUserId;
     }
 
-    public void setPublishUserId(int publishUserId) {
+    public void setPublishUserId(String publishUserId) {
         this.publishUserId = publishUserId;
     }
 

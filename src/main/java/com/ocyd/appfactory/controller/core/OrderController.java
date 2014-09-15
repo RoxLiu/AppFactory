@@ -130,10 +130,10 @@ public class OrderController {
             found.setLastUpdate(date);
 
             shopService.updateEntity(found);
-            message = "商家[: " + found.getAccountId() + "]更新成功.";
+            message = "商家[ " + found.getShopId() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
-            shopInfo.setAccountId(ResourceUtil.getCurrentSessionUser().getShopId());
+            shopInfo.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             shopInfo.setStatus(1); // 正常。
             shopInfo.setType(2); //设为普通用户
 
@@ -142,7 +142,7 @@ public class OrderController {
             shopInfo.setCreateTime(date);
             shopInfo.setLastUpdate(date);
             shopService.save(shopInfo);
-            message = "商家[: " + shopInfo.getAccountId() + "]添加成功";
+            message = "商家[ " + shopInfo.getShopId() + "]添加成功";
 
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
@@ -166,7 +166,7 @@ public class OrderController {
         TShopInfo shopInfo = shopService.getEntity(TShopInfo.class, shop.getId());
         shopService.delete(shopInfo);
 
-        message = "商家[" + shopInfo.getAccountId() + "]删除成功.";
+        message = "商家[" + shopInfo.getShopId() + "]删除成功.";
         j.setMsg(message);
         return j;
     }

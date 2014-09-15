@@ -70,9 +70,9 @@ public class ProductController {
      * @param dataGrid
      */
     @RequestMapping(params = "datagrid")
-    public void datagrid(int shopId, HttpServletResponse response, DataGrid dataGrid) {
+    public void datagrid(int connectId, HttpServletResponse response, DataGrid dataGrid) {
         CriteriaQuery cq = new CriteriaQuery(TProduct.class, dataGrid);
-        cq.eq("shopAccountId", shopId);
+        cq.eq("connectId", "" + connectId);
         cq.eq("status", TProduct.STATUS_NORMAL);
         cq.add();
         this.systemService.getDataGridReturn(cq, true);
@@ -85,8 +85,8 @@ public class ProductController {
      * @return
      */
     @RequestMapping(params = "productListOfShop")
-    public String user(HttpServletRequest request, int shopId) {
-        request.setAttribute("shopId", shopId);
+    public String productListOfShop(HttpServletRequest request, int connectId) {
+        request.setAttribute("connectId", "" + connectId);
         return "product/productListOfShop";
     }
 
@@ -100,13 +100,9 @@ public class ProductController {
      * @param user
      */
     @RequestMapping(params = "addorupdate")
-    public ModelAndView addOrUpdate(HttpServletRequest req, TProduct product, int shopId) {
+    public ModelAndView addOrUpdate(HttpServletRequest req, TProduct product) {
         if (product.getId() > 0) {
             product = systemService.getEntity(TProduct.class, product.getId());
-
-            req.setAttribute("shopId", product.getShopAccountId());
-        } else {
-            req.setAttribute("shopId", shopId);
         }
 
         req.setAttribute("product", product);
@@ -172,6 +168,95 @@ public class ProductController {
         return j;
     }
 
+
+    /**
+     * 商家对应的模块列表页面跳转
+     *
+     * @return
+     */
+    @RequestMapping(params = "productListOfPerson")
+    public String productListOfPerson(HttpServletRequest request, int connectId) {
+        request.setAttribute("connectId", "" + connectId);
+        return "product/productListOfPerson";
+    }
+
+
+    /**
+     * easyuiAJAX请求数据： 用户选择角色列表
+     *
+     * @param request
+     * @param response
+     * @param dataGrid
+     * @param user
+     */
+    @RequestMapping(params = "addorupdatepersonproduct")
+    public ModelAndView addOrUpdatePersonProduct(HttpServletRequest req, TProduct product) {
+        if (product.getId() > 0) {
+            product = systemService.getEntity(TProduct.class, product.getId());
+        }
+
+        req.setAttribute("product", product);
+        return new ModelAndView("product/personProduct");
+    }
+
+
+    /**
+     * 对商品进行保存
+     */
+    @RequestMapping(params = "savePersonProduct")
+    @ResponseBody
+    public AjaxJson savePersonProduct(HttpServletRequest req, TProduct product) {
+        String message = null;
+        AjaxJson j = new AjaxJson();
+        if (product.getId() > 0) {
+            TProduct found = systemService.getEntity(TProduct.class, product.getId());
+            found.setName(product.getName());
+            found.setBrandId(product.getBrandId());
+            found.setColor(product.getColor());
+            found.setSize(product.getSize());
+            found.setSexual(product.getSexual());
+            found.setPicture(product.getPicture());
+            found.setIcon(product.getIcon());
+            found.setNormalPrice(product.getNormalPrice());
+            found.setNowPrice(product.getNowPrice());
+            found.setBrief(product.getBrief());
+            found.setDescription(product.getDescription());
+            found.setStoreAmount(product.getStoreAmount());
+            found.setSecondTitle(product.getSecondTitle());
+            found.setSn(product.getSn());
+            found.setDescription(product.getDescription());
+            found.setIcon(product.getIcon());
+            found.setStartDiscountTime(product.getStartDiscountTime());
+            found.setEndDiscountTime(product.getEndDiscountTime());
+            found.setOrderable(product.getOrderable());
+            found.setWebLink(product.getWebLink());
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date = formatter.format(new Date());
+            found.setLastUpdateTime(date);
+
+            systemService.updateEntity(found);
+            message = "商品[: " + found.getName() + "]更新成功.";
+            systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
+        } else {
+            product.setStatus(1); // 正常。
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date = formatter.format(new Date());
+            product.setAddTime(date);
+            product.setLastUpdateTime(date);
+
+            product.setStartDiscountTime(date);
+            product.setEndDiscountTime(date);
+            systemService.save(product);
+            message = "商品[: " + product.getName() + "]添加成功";
+
+            systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
+        }
+        j.setMsg(message);
+
+        return j;
+    }
 
     /**
      * 用户信息录入和更新

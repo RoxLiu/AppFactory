@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@include file="/context/mytags.jsp"%>
+<%@include file="/webpage/context/mytags.jsp"%>
 <t:base type="jquery,easyui,tools,DatePicker"></t:base>
 <t:datagrid name="productList" title="商品管理" actionUrl="productionController.do?datagrid&shopId=${user.shopId}" fit="true" fitColumns="true" idField="id">
 	<t:dgCol title="编号" field="id" hidden="false"></t:dgCol>

@@ -290,15 +290,6 @@ public class CommonServiceImpl implements CommonService {
 		return commonDao.getListByCriteriaQuery(cq, ispage);
 	}
 
-	/**
-	 * 文件上传
-	 * 
-	 * @param request
-	 */
-	public <T> T uploadFile(UploadFile uploadFile) {
-		return commonDao.uploadFile(uploadFile);
-	}
-
 	public HttpServletResponse viewOrDownloadFile(UploadFile uploadFile)
 
 	{

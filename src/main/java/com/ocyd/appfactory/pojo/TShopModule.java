@@ -14,8 +14,8 @@ public class TShopModule implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;  // 此处使用id字段，是因为前端js中有些地方固定使用id作标识。
-    private int shopId;
-    private int moduleId;
+    private String shopId;
+    private String moduleId;
     private String moduleName;
     private String createTime;
     private String lastUpdate;
@@ -38,21 +38,21 @@ public class TShopModule implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "shop_module_shop_id")
-    public int getShopId() {
+    @Column(name = "shop_id")
+    public String getShopId() {
         return shopId;
     }
 
-    public void setShopId(int shopId) {
+    public void setShopId(String shopId) {
         this.shopId = shopId;
     }
 
     @Column(name = "shop_module_list_id")
-    public int getModuleId() {
+    public String getModuleId() {
         return moduleId;
     }
 
-    public void setModuleId(int moduleId) {
+    public void setModuleId(String moduleId) {
         this.moduleId = moduleId;
     }
 

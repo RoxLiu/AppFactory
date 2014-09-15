@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@include file="/context/mytags.jsp" %>
+<%@include file="/webpage/context/mytags.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,6 +37,7 @@
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" dialog="true" layout="table" action="shopController.do?saveShopInfo">
     <input id="id" name="id" type="hidden" value="${shopInfo.id}">
+    <input id="connectId" name="connectId" type="hidden" value="${shopInfo.connectId}">
     <table style="width: 650px;" cellpadding="0" cellspacing="1" class="formtable">
             <%--
                     <tr>
@@ -53,10 +54,24 @@
                     </tr>
             --%>
         <tr>
-            <td align="right" nowrap><label class="Validform_label"> 手机号码: </label></td>
+            <td align="right" nowrap><label class="Validform_label"> 名字: </label></td>
             <td class="value">
-                <input class="inputxt" name="phone" value="${shopInfo.phone}" datatype="m" errormsg="手机号码格式不正确!" ignore="ignore">
-                <span class="Validform_checktip"/>
+                <input class="inputxt" name="name" value="${shopInfo.name}">
+                    <%--<span class="Validform_checktip"/>--%>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" nowrap><label class="Validform_label"> 简介: </label></td>
+            <td class="value">
+                <input class="inputxt" name="brief" value="${shopInfo.brief}">
+                    <%--<span class="Validform_checktip"/>--%>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" nowrap><label class="Validform_label"> 电话号码: </label></td>
+            <td class="value">
+                <input class="inputxt" name="phone" value="${shopInfo.phone}">
+                <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
         <tr>
@@ -78,47 +93,47 @@
             </td>
         </tr>
         <tr>
-            <td align="right" nowrap><label class="Validform_label"> 经营范围: </label></td>
-            <td class="value">
-                <input class="inputxt" name="product" value="${shopInfo.product}">
-                <%--<span class="Validform_checktip"/>--%>
-            </td>
-        </tr>
-        <tr>
             <td align="right" nowrap><label class="Validform_label"> 地址: </label></td>
             <td class="value">
                 <input class="inputxt" name="address" value="${shopInfo.address}">
                 <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
+<%--        <tr>
+            <td align="right" nowrap><label class="Validform_label"> 经营范围: </label></td>
+            <td class="value">
+                <input class="inputxt" name="product" value="${shopInfo.product}">
+                    &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
+            </td>
+        </tr>
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 经度: </label></td>
             <td class="value">
                 <input class="inputxt" name="lon" value="${shopInfo.lon}">
-                <%--<span class="Validform_checktip"/>--%>
+                &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
         </tr>
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 纬度: </label></td>
             <td class="value">
                 <input class="inputxt" name="lat" value="${shopInfo.lat}">
-                <%--<span class="Validform_checktip"/>--%>
+                &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
         </tr>
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 网址: </label></td>
             <td class="value">
                 <input class="inputxt" name="webLink" value="${shopInfo.webLink}">
-                <%--<span class="Validform_checktip"/>--%>
+                &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
         </tr>
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 商家图片: </label></td>
             <td class="value">
                 <input class="inputxt" name="photoList" value="${shopInfo.photoList}">
-                <%--<span class="Validform_checktip"/>--%>
+                &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
-        </tr>
+        </tr>--%>
     </table>
 </t:formvalid>
 </body>

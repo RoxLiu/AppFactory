@@ -1,16 +1,6 @@
 package com.ocyd.jeecgframework.core.util;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-
-import jodd.io.StringInputStream;
+import java.io.*;
 
 
 
@@ -134,18 +124,6 @@ public class StreamUtils {
 		return outStream.toByteArray();
 	}
 
-	/**
-	 * 将byte数组转换成InputStream
-	 * 
-	 * @param in
-	 * @return
-	 * @throws Exception
-	 */
-	public static InputStream byteTOFInputStream(byte[] in) throws Exception {
-
-		InputStream is = new StringInputStream(InputStreamTOString(StreamUtils.byteTOInputStream(in)));
-		return is;
-	}
 	/**
 	 * 将byte数组转换成InputStream
 	 * 

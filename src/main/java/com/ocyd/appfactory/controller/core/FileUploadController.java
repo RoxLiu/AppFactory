@@ -64,10 +64,10 @@ public class FileUploadController {
         Iterator<String> itr = request.getFileNames();
 
         //文件保存目录路径
-        String savePath = request.getSession().getServletContext().getRealPath("/") + "upload/";
+        String savePath = request.getSession().getServletContext().getRealPath("/") + "upload/image";
 
         //文件保存目录URL
-        String saveUrl = request.getContextPath() + "/upload/";
+        String saveUrl = request.getContextPath() + "/upload/image";
 
 
         //最大文件大小

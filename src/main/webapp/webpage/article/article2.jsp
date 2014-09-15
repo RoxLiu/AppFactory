@@ -66,7 +66,7 @@
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 标题: </label></td>
             <td class="value">
-                <input class="inputxt" name="title" value="${article.title}">
+                <input class="inputxt" name="title" value="${article.name}">
                 <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>

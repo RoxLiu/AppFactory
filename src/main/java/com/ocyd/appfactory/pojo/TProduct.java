@@ -20,8 +20,8 @@ public class TProduct implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;  // 此处使用id字段，是因为前端js中有些地方固定使用id作标识。
-    private int shopAccountId;
-    private int connectId;
+    private String shopId;
+    private String connectId;
 //    private int categoryId;
     private String name;
     private String brandId;
@@ -62,21 +62,21 @@ public class TProduct implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "production_shop_account_id")
-    public int getShopAccountId() {
-        return shopAccountId;
+    @Column(name = "shop_id")
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setShopAccountId(int shopId) {
-        this.shopAccountId = shopId;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
     }
 
     @Column(name = "production_connectid")
-    public int getConnectId() {
+    public String getConnectId() {
         return connectId;
     }
 
-    public void setConnectId(int connectId) {
+    public void setConnectId(String connectId) {
         this.connectId = connectId;
     }
 

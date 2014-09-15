@@ -20,7 +20,11 @@ public class TShopInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;  // 此处使用id字段，是因为前端js中有些地方固定使用id作标识。
-    private int accountId;
+    private String shopId;
+    private String connectId;
+    private String name;
+    private String company;
+    private String brief;
     private String phone;
     private int status;
     private int type;
@@ -34,6 +38,7 @@ public class TShopInfo implements Serializable {
     private String photoList;
     private String createTime;
     private String webLink;
+    private String secondTitle;
     private String observe1;
     private String observe2;
     private String observe3;
@@ -51,13 +56,49 @@ public class TShopInfo implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "shop_account_id")
-    public int getAccountId() {
-        return accountId;
+    @Column(name = "shop_id")
+    public String getShopId() {
+        return shopId;
     }
 
-    public void setAccountId(int shopId) {
-        this.accountId = shopId;
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    @Column(name = "shop_connect_id")
+    public String getConnectId() {
+        return connectId;
+    }
+
+    public void setConnectId(String connectId) {
+        this.connectId = connectId;
+    }
+
+    @Column(name = "shop_info_name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "shop_info_companyName")
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    @Column(name = "shop_info_brief")
+    public String getBrief() {
+        return brief;
+    }
+
+    public void setBrief(String brief) {
+        this.brief = brief;
     }
 
     @Column(name = "shop_info_phone", length = 20)
@@ -175,6 +216,15 @@ public class TShopInfo implements Serializable {
 
     public void setWebLink(String webLink) {
         this.webLink = webLink;
+    }
+
+    @Column(name = "shop_info_secondtitle", length = 100)
+    public String getSecondTitle() {
+        return secondTitle;
+    }
+
+    public void setSecondTitle(String secondTitle) {
+        this.secondTitle = secondTitle;
     }
 
     @Column(name = "shop_info_observe1", length = 100)

@@ -10,8 +10,9 @@ import java.io.Serializable;
 @Table(name = "module_list")
 public class TModule implements Serializable {
 //    public final static int TYPE_BRIEF = 1;
-    public final static int TYPE_NEWS = 1;
-    public final static int TYPE_SHOP = 2;
+    public final static String TYPE_NEWS = "1";
+    public final static String TYPE_SHOP = "2";
+    public final static String TYPE_PERSONAL = "3";
 
     public final static int STATUS_NORMAL = 1;
     public final static int STATUS_DELETED = -1;

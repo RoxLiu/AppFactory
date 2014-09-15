@@ -1,10 +1,8 @@
 package com.ocyd.appfactory.controller.core;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,28 +10,21 @@ import com.ocyd.appfactory.pojo.TModule;
 import com.ocyd.appfactory.pojo.TShopAccount;
 import com.ocyd.appfactory.pojo.TShopModule;
 import com.ocyd.appfactory.pojo.TUser;
-import com.ocyd.jeecgframework.core.common.model.common.UploadFile;
 import com.ocyd.jeecgframework.core.common.model.json.AjaxJson;
 import com.ocyd.jeecgframework.core.common.model.json.DataGrid;
 import com.ocyd.jeecgframework.core.common.model.json.ValidForm;
 import com.ocyd.jeecgframework.core.constant.Globals;
 import com.ocyd.jeecgframework.core.util.*;
 import com.ocyd.jeecgframework.tag.core.easyui.TagUtil;
-import com.ocyd.appfactory.manager.ClientManager;
 import com.ocyd.appfactory.service.SystemService;
 import com.ocyd.appfactory.service.UserService;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import com.ocyd.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
-import com.ocyd.jeecgframework.core.common.model.json.ComboBox;
-import com.ocyd.jeecgframework.tag.vo.datatable.DataTableReturn;
-import com.ocyd.jeecgframework.tag.vo.datatable.DataTables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -79,9 +70,9 @@ public class UserController {
         request.setAttribute("user", user);
 
         if(user.getType() == TUser.TYPE_SUPPER_ADMINISTRATOR) {
-            return "system/user/appUserList";
+            return "user/appUserList";
         } else {
-            return "system/user/userList";
+            return "user/userList";
         }
 	}
 
@@ -99,6 +90,7 @@ public class UserController {
         TUser user = ResourceUtil.getCurrentSessionUser();
 //		HqlGenerateUtil.installHql(cq, user);
         if(user.getType() == TUser.TYPE_SUPPER_ADMINISTRATOR) {
+//            cq.in("type", new Integer[] {TUser.TYPE_APP_ADMINISTRATOR, TUser.TYPE_SUPPER_ADMINISTRATOR});
             cq.eq("type", TUser.TYPE_APP_ADMINISTRATOR);
             cq.in("status", new Integer[] { TUser.STATUS_LOCKED, TUser.STATUS_NORMAL});
         } else {
@@ -297,7 +289,7 @@ public class UserController {
             user.setPassword(password);
             user.setStatus(TUser.STATUS_NORMAL); // 正常。
             user.setType(TUser.TYPE_APP_ADMINISTRATOR); //设为普通用户
-            user.setShopId(shopId);
+            user.setShopId("" + shopId);
             user.setCreateTime(date);
             systemService.save(user);
 
@@ -328,7 +320,7 @@ public class UserController {
 
         String[] array = modules.split(",");
         for (int i = 0; i < array.length; i++) {
-            int moduleId = Integer.parseInt(array[i]);
+            String moduleId = array[i];
             TShopModule shopModule = findInList(moduleList, moduleId);
             //2. 如果数据库中没有，增加。
             if(shopModule == null) {
@@ -358,7 +350,7 @@ public class UserController {
         }
     }
 
-    private TShopModule findInList(List<TShopModule> moduleList, int moduleId) {
+    private TShopModule findInList(List<TShopModule> moduleList, String moduleId) {
         for(TShopModule shopModule : moduleList) {
             if(shopModule.getModuleId() == moduleId) {
                 return shopModule;
