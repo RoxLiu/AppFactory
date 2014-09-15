@@ -1,4 +1,4 @@
-package com.ocyd.appfactory.controller.core;
+package com.ocyd.appfactory.controller;
 
 import com.ocyd.appfactory.pojo.TShopInfo;
 import com.ocyd.appfactory.pojo.TShopModule;

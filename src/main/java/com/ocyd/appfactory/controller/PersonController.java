@@ -1,16 +1,13 @@
-package com.ocyd.appfactory.controller.core;
+package com.ocyd.appfactory.controller;
 
-import com.ocyd.appfactory.pojo.TOrder;
 import com.ocyd.appfactory.pojo.TShopInfo;
-import com.ocyd.appfactory.pojo.TUser;
 import com.ocyd.appfactory.service.ShopService;
 import com.ocyd.appfactory.service.SystemService;
-import com.ocyd.appfactory.service.UserService;
+import com.ocyd.appfactory.service.UploadFileService;
 import com.ocyd.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import com.ocyd.jeecgframework.core.common.model.json.AjaxJson;
 import com.ocyd.jeecgframework.core.common.model.json.DataGrid;
 import com.ocyd.jeecgframework.core.constant.Globals;
-import com.ocyd.jeecgframework.core.extend.hqlsearch.HqlGenerateUtil;
 import com.ocyd.jeecgframework.core.util.ResourceUtil;
 import com.ocyd.jeecgframework.tag.core.easyui.TagUtil;
 import org.apache.log4j.Logger;
@@ -31,17 +28,17 @@ import java.util.Date;
  */
 @Scope("prototype")
 @Controller
-@RequestMapping("/orderController")
-public class OrderController {
+@RequestMapping("/personController")
+public class PersonController {
 	/**
 	 * Logger for this class
 	 */
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(OrderController.class);
+	private static final Logger logger = Logger.getLogger(PersonController.class);
 
-	private UserService userService;
 	private SystemService systemService;
     private ShopService shopService;
+    private UploadFileService fileService;
 	private String message = null;
 
 	@Autowired
@@ -49,25 +46,24 @@ public class OrderController {
 		this.systemService = systemService;
 	}
 
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
     @Autowired
     public void setShopService(ShopService shopService) {
         this.shopService = shopService;
     }
+
+    @Autowired
+    public void setFileService(UploadFileService fileService) {
+        this.fileService = fileService;
+    }
     /**
-     * 商家对应的模块列表页面跳转
+     * 个人对应的模块列表页面跳转
      *
      * @return
      */
-    @RequestMapping(params = "orderList")
-    public String user(HttpServletRequest request) {
-        TUser user = ResourceUtil.getCurrentSessionUser();
-        request.setAttribute("user", user);
-        return "order/orderList";
+    @RequestMapping(params = "personList")
+    public String shopList(HttpServletRequest request, int connectId) {
+        request.setAttribute("connectId", connectId);
+        return "person/personList";
     }
 
 
@@ -78,12 +74,10 @@ public class OrderController {
      * @param dataGrid
      */
     @RequestMapping(params = "datagrid")
-    public void datagrid(TUser user, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(TOrder.class, dataGrid);
-        //查询条件组装器
-        HqlGenerateUtil.installHql(cq, user);
-
-        cq.eq("shopId", user.getShopId());
+    public void datagrid(int connectId, HttpServletResponse response, DataGrid dataGrid) {
+        CriteriaQuery cq = new CriteriaQuery(TShopInfo.class, dataGrid);
+        cq.eq("connectId", "" + connectId);
+        cq.eq("status", TShopInfo.STATUS_NORMAL);
         cq.add();
         this.shopService.getDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
@@ -99,24 +93,28 @@ public class OrderController {
             shop = shopService.getEntity(TShopInfo.class, shop.getId());
         }
 
-        req.setAttribute("shopInfo", shop);
+        req.setAttribute("person", shop);
 //        req.setAttribute("user", ResourceUtil.getCurrentSessionUser());
-        return new ModelAndView("shop/shopInfo");
+        return new ModelAndView("person/person");
     }
 
 
     /**
      * 对商家进行保存
      */
-
-    @RequestMapping(params = "saveShopInfo")
+    @RequestMapping(params = "savePerson")
     @ResponseBody
-    public AjaxJson saveUser(HttpServletRequest req, TShopInfo shopInfo) {
+    public AjaxJson saveShopInfo(HttpServletRequest req, TShopInfo shopInfo) {
         AjaxJson j = new AjaxJson();
         if (shopInfo.getId() > 0) {
             TShopInfo found = shopService.getEntity(TShopInfo.class, shopInfo.getId());
             found.setPhone(shopInfo.getPhone());
             found.setDescription(shopInfo.getDescription());
+
+            //用户重新选择了图片，删除原来旧的图片。
+            if(found.getIcon() != null && !found.getIcon().equals(shopInfo.getIcon())) {
+                fileService.deleteFile(found.getIcon());
+            }
             found.setIcon(shopInfo.getIcon());
             found.setProduct(shopInfo.getProduct());
             found.setAddress(shopInfo.getAddress());
@@ -130,7 +128,7 @@ public class OrderController {
             found.setLastUpdate(date);
 
             shopService.updateEntity(found);
-            message = "商家[ " + found.getShopId() + "]更新成功.";
+            message = "个人[" + found.getName() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
             shopInfo.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
@@ -142,7 +140,7 @@ public class OrderController {
             shopInfo.setCreateTime(date);
             shopInfo.setLastUpdate(date);
             shopService.save(shopInfo);
-            message = "商家[ " + shopInfo.getShopId() + "]添加成功";
+            message = "个人[" + shopInfo.getName() + "]添加成功";
 
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
@@ -164,9 +162,13 @@ public class OrderController {
     public AjaxJson del(HttpServletRequest req, TShopInfo shop) {
         AjaxJson j = new AjaxJson();
         TShopInfo shopInfo = shopService.getEntity(TShopInfo.class, shop.getId());
+
+        //先删除对应的图标文件
+        fileService.deleteFile(shopInfo.getIcon());
         shopService.delete(shopInfo);
 
-        message = "商家[" + shopInfo.getShopId() + "]删除成功.";
+
+        message = "个人[" + shopInfo.getShopId() + "]删除成功.";
         j.setMsg(message);
         return j;
     }

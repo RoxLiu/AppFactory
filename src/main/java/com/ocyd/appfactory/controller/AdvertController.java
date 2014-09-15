@@ -1,9 +1,9 @@
-package com.ocyd.appfactory.controller.core;
+package com.ocyd.appfactory.controller;
 
-import com.ocyd.appfactory.pojo.TModule;
+import com.ocyd.appfactory.pojo.TAdvert;
 import com.ocyd.appfactory.pojo.TUser;
 import com.ocyd.appfactory.service.SystemService;
-import com.ocyd.appfactory.service.UserService;
+import com.ocyd.appfactory.service.UploadFileService;
 import com.ocyd.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import com.ocyd.jeecgframework.core.common.model.json.AjaxJson;
 import com.ocyd.jeecgframework.core.common.model.json.DataGrid;
@@ -28,16 +28,16 @@ import java.util.Date;
  */
 @Scope("prototype")
 @Controller
-@RequestMapping("/moduleController")
-public class ModuleController {
+@RequestMapping("/advertController")
+public class AdvertController {
 	/**
 	 * Logger for this class
 	 */
 	@SuppressWarnings("unused")
-	private static final Logger logger = Logger.getLogger(ModuleController.class);
+	private static final Logger logger = Logger.getLogger(AdvertController.class);
 
-	private UserService userService;
 	private SystemService systemService;
+    private UploadFileService fileService;
 	private String message = null;
 
 	@Autowired
@@ -46,8 +46,8 @@ public class ModuleController {
 	}
 
 	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
+	public void setFileService(UploadFileService fileService) {
+		this.fileService = fileService;
 	}
 
 
@@ -56,33 +56,31 @@ public class ModuleController {
      *
      * @return
      */
-    @RequestMapping(params = "moduleList")
-    public String user(HttpServletRequest request) {
-        TUser user = ResourceUtil.getCurrentSessionUser();
-        request.setAttribute("user", user);
-        return "module/moduleList";
+    @RequestMapping(params = "advertList")
+    public String advertList(HttpServletRequest request) {
+        return "advert/advertList";
     }
 
 
     /**
-     * 系统模块列表请求数据
+     * 当前商家用户对应的模块列表请求数据
      * @param request
      * @param response
      * @param dataGrid
      */
     @RequestMapping(params = "datagrid")
-    public void datagrid(TUser user, HttpServletResponse response, DataGrid dataGrid) {
-        CriteriaQuery cq = new CriteriaQuery(TModule.class, dataGrid);
-        cq.eq("status", TModule.STATUS_NORMAL);
+    public void datagrid(HttpServletResponse response, DataGrid dataGrid) {
+        TUser user = ResourceUtil.getCurrentSessionUser();
+        CriteriaQuery cq = new CriteriaQuery(TAdvert.class, dataGrid);
+        cq.eq("shopId", user.getShopId());
+        cq.eq("status", TAdvert.STATUS_NORMAL);
         cq.add();
-
         this.systemService.getDataGridReturn(cq, true);
         TagUtil.datagrid(response, dataGrid);
     }
 
-
     /**
-     * easyuiAJAX请求数据： 增加或者修改模块
+     * easyuiAJAX请求数据： 用户选择角色列表
      *
      * @param request
      * @param response
@@ -90,48 +88,53 @@ public class ModuleController {
      * @param user
      */
     @RequestMapping(params = "addorupdate")
-    public ModelAndView addorupdate(HttpServletRequest req, TModule module) {
-        if (module.getId() > 0) {
-            module = systemService.getEntity(TModule.class, module.getId());
+    public ModelAndView addOrUpdate(HttpServletRequest request, TAdvert advert) {
+        if (advert.getId() > 0) {
+            advert = systemService.getEntity(TAdvert.class, advert.getId());
         }
 
-        req.setAttribute("module", module);
-        return new ModelAndView("module/module");
+        request.setAttribute("advert", advert);
+        return new ModelAndView("advert/advert");
     }
 
 
     /**
      * 对商家进行保存
      */
-    @RequestMapping(params = "saveModule")
+    @RequestMapping(params = "saveAdvert")
     @ResponseBody
-    public AjaxJson saveUser(HttpServletRequest req, TModule module) {
+    public AjaxJson saveAdvert(HttpServletRequest request, TAdvert article) {
+        TUser user = ResourceUtil.getCurrentSessionUser();
         AjaxJson j = new AjaxJson();
-        if (module.getId() > 0) {
-            TModule found = systemService.getEntity(TModule.class, module.getId());
-            found.setName(module.getName());
-            found.setDescription(module.getDescription());
+        if (article.getId() > 0) {
+            TAdvert found = systemService.getEntity(TAdvert.class, article.getId());
+            //删除旧的文件
+            if(found.getIcon() != null && ! found.getIcon().equals(article.getIcon())) {
+                fileService.deleteFile(found.getIcon());
+            }
+
+            found.setName(article.getName());
+            found.setIcon(article.getIcon());
+            found.setWebLink(article.getWebLink());
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = formatter.format(new Date());
             found.setLastUpdate(date);
-
             systemService.updateEntity(found);
-            message = "模块[ " + found.getName() + "]更新成功.";
+            message = "广告[" + found.getName() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
-            module.setStatus(1); // 正常。
+            article.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
+            article.setStatus(1); // 正常。
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = formatter.format(new Date());
-            module.setCreateTime(date);
-            module.setLastUpdate(date);
-            systemService.save(module);
-            message = "模块[ " + module.getName() + "]添加成功.";
+            article.setLastUpdate(date);
+            systemService.save(article);
+            message = "广告[" + article.getName() + "]添加成功.";
 
             systemService.addLog(message, Globals.Log_Type_INSERT, Globals.Log_Leavel_INFO);
         }
-
         j.setMsg(message);
 
         return j;
@@ -139,24 +142,25 @@ public class ModuleController {
 
 
     /**
-     * 用户信息录入和更新
+     * 删除
      *
-     * @param user
-     * @param req
      * @return
      */
     @RequestMapping(params = "del")
     @ResponseBody
-    public AjaxJson del(HttpServletRequest req, TModule module) {
+    public AjaxJson delete(HttpServletRequest req, TAdvert advert) {
         AjaxJson j = new AjaxJson();
-        TModule found = systemService.getEntity(TModule.class, module.getId());
+        TAdvert found = systemService.getEntity(TAdvert.class, advert.getId());
 
         if(found.getId() > 0) {
-            found.setStatus(-1); //将状态置为-1表示删除，不直接从数据库中删除记录。
-            userService.save(found);
+            //先删除对应的图标文件
+            fileService.deleteFile(found.getIcon());
+
+            found.setStatus(TAdvert.STATUS_DELETED);
+            systemService.save(found);
         }
-        message = "模块[" + found.getName() + "]删除成功";
-        j.setSuccess(true);
+
+        message = "广告[" + found.getName() + "]删除成功.";
 
         j.setMsg(message);
         return j;

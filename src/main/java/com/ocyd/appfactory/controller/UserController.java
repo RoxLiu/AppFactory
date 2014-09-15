@@ -1,4 +1,4 @@
-package com.ocyd.appfactory.controller.core;
+package com.ocyd.appfactory.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
