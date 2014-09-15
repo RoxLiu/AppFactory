@@ -10,12 +10,12 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd ">
 	<!-- 自动扫描controller包下的所有类，使其认为spring mvc的控制器 -->
 	<!-- 加载controller的时候,不加载service,因为此时事物并未生效,若此时加载了service,那么事物无法对service进行拦截 -->
-	<context:component-scan base-package="org.jeecgframework.web.*,weixin.*">
+	<context:component-scan base-package="com.ocyd.appfactory.controller">
 		<context:exclude-filter type="annotation"	 expression="org.springframework.stereotype.Service" />
 	</context:component-scan>
 
 	<!-- ApplicationContext -->
-	<bean class="org.jeecgframework.core.util.ApplicationContextUtil"></bean>
+	<bean class="com.ocyd.jeecgframework.core.util.ApplicationContextUtil"/>
 
 	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
 	<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
@@ -35,7 +35,7 @@
 			</list>
 		</property>
 		<property name="webBindingInitializer">
-			<bean class="org.jeecgframework.core.interceptors.MyWebBinding" />
+			<bean class="com.ocyd.jeecgframework.core.interceptors.MyWebBinding" />
 		</property>
 	</bean>
 	<!-- 默认的视图解析器 在上边的解析错误时使用 (默认使用html)- -->
@@ -58,13 +58,13 @@
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0">
     </bean>
     <!-- Excel 处理 根据用户输入进行对象处理 -->
-    <bean id="jeecgExcelView" class="org.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
+    <bean id="jeecgExcelView" class="com.ocyd.jeecgframework.poi.excel.view.JeecgSingleExcelView" />
 	<!-- 方言 -->
-	<bean id="dialect" class="org.jeecgframework.core.common.hibernate.dialect.DialectFactoryBean">
+	<bean id="dialect" class="com.ocyd.jeecgframework.core.common.hibernate.dialect.DialectFactoryBean">
 		<property name="dbType" value="${jdbc.dbType}" />
 	</bean>
 	<!-- 异常处理类 -->
-	<bean id="exceptionHandler" class="org.jeecgframework.core.common.exception.MyExceptionHandler" />
+	<bean id="exceptionHandler" class="com.ocyd.jeecgframework.core.common.exception.MyExceptionHandler" />
 	<!-- 系统错误转发配置[并记录错误日志] -->
 	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="defaultErrorView" value="500"></property>   <!-- 默认为500，系统错误(error.jsp) -->
@@ -90,11 +90,11 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="org.jeecgframework.core.interceptors.EncodingInterceptor" />
+			<bean class="com.ocyd.jeecgframework.core.interceptors.EncodingInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="org.jeecgframework.core.interceptors.AuthInterceptor">
+			<bean class="com.ocyd.jeecgframework.core.interceptors.AuthInterceptor">
 				<property name="excludeUrls">
 					<list>
 						<value>loginController.do?goPwdInit</value>

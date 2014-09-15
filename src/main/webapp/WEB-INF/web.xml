@@ -55,11 +55,7 @@
     <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
   </listener>
   <listener>
-    <description>系统初始化监听器</description>
-    <listener-class>org.jeecgframework.web.system.listener.InitListener</listener-class>
-  </listener>
-  <listener>
-    <listener-class>org.jeecgframework.web.system.listener.OnlineListener</listener-class>
+    <listener-class>com.ocyd.appfactory.listener.OnlineListener</listener-class>
   </listener>
   <servlet>
     <description>spring mvc servlet</description>
@@ -109,7 +105,7 @@
     </init-param>
     <init-param>
       <param-name>configuration</param-name>
-      <param-value>org.jeecgframework.web.system.listener.CkfinderConfiguration</param-value>
+      <param-value>CkfinderConfiguration</param-value>
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
@@ -120,7 +116,7 @@
   -->
   <servlet>
     <servlet-name>RandCodeImage</servlet-name>
-    <servlet-class>org.jeecgframework.web.system.servlet.RandCodeImageServlet</servlet-class>
+    <servlet-class>com.ocyd.appfactory.servlet.RandCodeImageServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RandCodeImage</servlet-name>
@@ -144,7 +140,7 @@
   </filter-mapping>
   <filter>
     <filter-name>ecsideExport</filter-name>
-    <filter-class>org.jeecgframework.core.aop.GZipFilter</filter-class>
+    <filter-class>com.ocyd.jeecgframework.core.aop.GZipFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>ecsideExport</filter-name>

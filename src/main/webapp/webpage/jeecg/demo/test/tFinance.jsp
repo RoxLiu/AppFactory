@@ -74,7 +74,7 @@
 				<c:forEach items="${tFinancePage.financeFiles}" var="financeFile">
 					<tr style="height: 34px;">
 						<td>${financeFile.attachmenttitle}</td>
-						<td><a href="commonController.do?viewFile&fileid=${financeFile.id}&subclassname=org.jeecgframework.web.demo.entity.test.TFinanceFilesEntity" title="下载">下载</a></td>
+						<td><a href="commonController.do?viewFile&fileid=${financeFile.id}&subclassname=com.ocyd.jeecgframework.web.demo.entity.test.TFinanceFilesEntity" title="下载">下载</a></td>
 						<td><a href="javascript:void(0);"
 							onclick="openwindow('预览','commonController.do?openViewFile&fileid=${financeFile.id}&subclassname=org.jeecgframework.web.demo.entity.test.TFinanceFilesEntity','fList','800','700')">预览</a></td>
 						<td><a href="javascript:void(0)" class="jeecgDetail" onclick="del('tFinanceController.do?delFile&id=${financeFile.id}',this)">删除</a></td>
