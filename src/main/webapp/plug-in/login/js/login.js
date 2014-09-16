@@ -102,6 +102,7 @@ function Login() {
 		url : checkurl,// 请求的action路径
 		data : formData,
 		error : function() {// 请求失败处理函数
+			showError("登录时出现错误,请联系管理员.");
 		},
 		success : function(data) {
 			var d = $.parseJSON(data);
@@ -115,8 +116,9 @@ function Login() {
 					}, function(){
 						//
 					});
-				} else
+				} else {
 					showError(d.msg);
+			    }
 			}
 		}
 	});
