@@ -98,7 +98,7 @@ label.iPhoneCheckLabelOn span {
                         <div style="float: right; padding: 3px 0; margin-right: -12px;">
                             <div>
                                 <ul class="uibutton-group">
-                                    <li><a class="uibutton normal" href="#" id="but_login">登陆</a></li>
+                                    <li><a class="uibutton normal" href="#" id="but_login">登录</a></li>
                                     <li><a class="uibutton normal" href="#" id="forgetpass">重置</a></li>
                                 </ul>
                             </div>
