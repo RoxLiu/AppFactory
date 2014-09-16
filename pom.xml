@@ -58,7 +58,6 @@
 		<antlr.version>3.5.2</antlr.version>
 		<openoffice.version>3.2.1</openoffice.version>
         <jodconverter.version>3.0-beta-4</jodconverter.version>
-        <!-- todo 为什么要引入struts的lib呢？-->
         <xwork-core.version>2.1.6</xwork-core.version>
 
 		<!-- 数据库组件包 _start -->
