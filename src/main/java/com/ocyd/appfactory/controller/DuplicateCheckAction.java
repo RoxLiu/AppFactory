@@ -3,7 +3,9 @@ package com.ocyd.appfactory.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import com.ocyd.appfactory.pojo.DuplicateCheckPage;
+import com.ocyd.appfactory.pojo.TUser;
 import com.ocyd.jeecgframework.core.common.model.json.AjaxJson;
+import com.ocyd.jeecgframework.core.util.ResourceUtil;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import com.ocyd.jeecgframework.core.common.controller.BaseController;
@@ -44,14 +46,36 @@ public class DuplicateCheckAction extends BaseController {
         //为了兼容id为数字型的情况，如果传入的id值为"0"，也认为对应的object不存在。（如果真的有id为"0"的object，会出现不能正常工作的情况).
 		if(StringUtils.isNotBlank(duplicateCheckPage.getRowObid()) && !"0".equals(duplicateCheckPage.getRowObid())){
 			//[2].编辑页面校验
-			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName()
-						+" WHERE "+duplicateCheckPage.getFieldName() +" =? and id != ?";
+			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName() +" WHERE "+duplicateCheckPage.getFieldName() +" =? and id != ?";
 			num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue(),duplicateCheckPage.getRowObid()});
 		}else{
 			//[1].添加页面校验
-			String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName()
-						+" WHERE "+duplicateCheckPage.getFieldName() +" =?";
-			num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
+            if("user_account".equals(duplicateCheckPage.getTableName())) {
+                TUser user = ResourceUtil.getCurrentSessionUser();
+                //当前用户为App管理员，增加的用户为普通用户，只要求在同一个shop下唯一。
+                if (user.getType() == TUser.TYPE_APP_ADMINISTRATOR) {
+                    //检查shopId为空（系统管理员）的情况下，该帐号是否已经使用。
+                    String sql = "SELECT count(*) FROM user_account WHERE "+duplicateCheckPage.getFieldName() +" =? and user_shopid=''";
+                    num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
+
+                    //检查shopId为0(系统管理员)的情况下，该帐号是否已经使用。
+                    if(num==null||num==0){
+                        sql = "SELECT count(*) FROM user_account WHERE "+duplicateCheckPage.getFieldName() +" =? and user_shopid='0'";
+                        num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
+                    }
+
+                    if(num==null||num==0){
+                        sql = "SELECT count(*) FROM user_account WHERE "+duplicateCheckPage.getFieldName() +" =? and user_shopid=?";
+                        num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue(), user.getShopId()});
+                    }
+                } else {
+                    String sql = "SELECT count(*) FROM user_account WHERE "+duplicateCheckPage.getFieldName() +" =?";
+                    num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
+                }
+            } else {
+                String sql = "SELECT count(*) FROM "+duplicateCheckPage.getTableName() +" WHERE "+duplicateCheckPage.getFieldName() +" =?";
+                num = jdbcDao.getCountForJdbcParam(sql, new Object[]{duplicateCheckPage.getFieldVlaue()});
+            }
 		}
 		
 		if(num==null||num==0){

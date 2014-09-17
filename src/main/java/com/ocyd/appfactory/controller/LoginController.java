@@ -81,9 +81,16 @@ public class LoginController extends BaseController{
                 j.setSuccess(false);
                 return j;
             }
+
             TUser u2 = userService.getEntity(TUser.class, u.getId());
 
-            if (u2.getStatus() != 0) {
+            if(u2.getType() == TUser.TYPE_TERMINAL_USER) {
+                j.setMsg("无权限登录此系统!");
+                j.setSuccess(false);
+                return j;
+            }
+
+            if (u2.getStatus() == TUser.STATUS_NORMAL) {
                 // if (user.getUserKey().equals(u.getUserKey())) {
                 String message = "用户[" + user.getAccountName() + "]" + "登录成功";
                 Client client = new Client();
@@ -94,7 +101,7 @@ public class LoginController extends BaseController{
                 // 添加登陆日志
                 systemService.addLog(message, Globals.Log_Type_LOGIN, Globals.Log_Leavel_INFO);
             } else {
-                j.setMsg("用户名或密码错误!");
+                j.setMsg("此帐号已经删除或锁定!");
                 j.setSuccess(false);
             }
         }
