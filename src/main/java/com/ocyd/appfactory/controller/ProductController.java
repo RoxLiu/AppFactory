@@ -3,7 +3,7 @@ package com.ocyd.appfactory.controller;
 import com.ocyd.appfactory.pojo.TProduct;
 import com.ocyd.appfactory.pojo.TUser;
 import com.ocyd.appfactory.service.SystemService;
-import com.ocyd.appfactory.service.UserService;
+import com.ocyd.appfactory.service.UploadFileService;
 import com.ocyd.jeecgframework.core.common.hibernate.qbc.CriteriaQuery;
 import com.ocyd.jeecgframework.core.common.model.json.AjaxJson;
 import com.ocyd.jeecgframework.core.common.model.json.DataGrid;
@@ -36,19 +36,18 @@ public class ProductController {
 	@SuppressWarnings("unused")
 	private static final Logger logger = Logger.getLogger(ProductController.class);
 
-	private UserService userService;
 	private SystemService systemService;
+    private UploadFileService fileService;
 
 	@Autowired
 	public void setSystemService(SystemService systemService) {
 		this.systemService = systemService;
 	}
 
-	@Autowired
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-
+    @Autowired
+    public void setFileService(UploadFileService fileService) {
+        this.fileService = fileService;
+    }
 
     /**
      * 商品列表页面跳转
@@ -193,6 +192,12 @@ public class ProductController {
     public ModelAndView addOrUpdatePersonProduct(HttpServletRequest req, TProduct product) {
         if (product.getId() > 0) {
             product = systemService.getEntity(TProduct.class, product.getId());
+
+            String relative = product.getWebLink();
+
+            if(relative != null) {
+                product.setWebLink(fileService.readHtmlFile(relative));
+            }
         }
 
         req.setAttribute("product", product);
@@ -229,7 +234,10 @@ public class ProductController {
             found.setStartDiscountTime(product.getStartDiscountTime());
             found.setEndDiscountTime(product.getEndDiscountTime());
             found.setOrderable(product.getOrderable());
-            found.setWebLink(product.getWebLink());
+
+            //内容保存为html，然后将相对路径保存到数据库。
+            String relative = fileService.saveHtmlFile(found.getWebLink(), product.getWebLink());
+            found.setWebLink(relative);
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = formatter.format(new Date());
@@ -240,6 +248,12 @@ public class ProductController {
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
             product.setStatus(1); // 正常。
+
+            //将提交上来的content保存为文件，然后将路径存放到content字段。
+            if(product.getWebLink() != null) {
+                String relative = fileService.saveHtmlFile(null, product.getWebLink());
+                product.setWebLink(relative);
+            }
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = formatter.format(new Date());
@@ -273,7 +287,7 @@ public class ProductController {
         TProduct existed = systemService.getEntity(TProduct.class, product.getId());
 
         existed.setStatus(-1); //将状态置为-1表示删除，不直接从数据库中删除记录。
-        userService.save(existed);
+        systemService.save(existed);
         message = "商品[" + existed.getName() + "]删除成功";
         j.setSuccess(true);
 

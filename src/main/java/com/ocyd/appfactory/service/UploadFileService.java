@@ -7,5 +7,10 @@ package com.ocyd.appfactory.service;
 public interface UploadFileService {
 
     public boolean deleteFile(String file);
+
+    //从
+    String readHtmlFile(String relative);
+
+    String saveHtmlFile(String filePath, String content);
 }
 

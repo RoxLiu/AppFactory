@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -97,8 +96,7 @@ public class ArticleController {
             String relative = article.getContent();
 
             if(relative != null) {
-                String savePath = request.getSession().getServletContext().getRealPath(relative);
-                article.setContent(readHtmlFile(savePath));
+                article.setContent(fileService.readHtmlFile(relative));
                 article.setWebLink(article.getContent());
             }
         }
@@ -125,13 +123,7 @@ public class ArticleController {
             }
 
             //内容保存为html，然后将相对路径保存到数据库。
-            String relative = found.getContent();
-            if(relative == null) {
-                relative = composeHtmlFileRelativePath(request.getContextPath());
-            }
-            String filePath = request.getSession().getServletContext().getRealPath(relative);
-            saveHtmlFile(filePath, article.getContent());
-
+            String relative = fileService.saveHtmlFile(found.getContent(), article.getContent());
             found.setContent(relative);
             found.setWebLink(found.getContent());
             found.setIcon(article.getIcon());
@@ -149,12 +141,9 @@ public class ArticleController {
         } else {
             //将提交上来的content保存为文件，然后将路径存放到content字段。
             if(article.getContent() != null) {
-                String saveUrl = composeHtmlFileRelativePath(request.getContextPath());
-                String savePath = request.getSession().getServletContext().getRealPath(saveUrl);
+                String relative = fileService.saveHtmlFile(null, article.getContent());
 
-                saveHtmlFile(savePath, article.getContent());
-
-                article.setContent(saveUrl);
+                article.setContent(relative);
                 article.setWebLink(article.getContent());
             }
 
@@ -202,81 +191,5 @@ public class ArticleController {
 
         j.setMsg(message);
         return j;
-    }
-
-    private String composeHtmlFileRelativePath(String contextRoot) {
-        StringBuilder sb = new StringBuilder(contextRoot);
-        sb.append("/upload/html/");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String ymd = sdf.format(new Date());
-        sb.append(ymd).append("/");
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmSS");
-        sb.append(df.format(new Date())).append(".html");
-
-        return sb.toString();
-    }
-
-    /**
-     * 从指定的文件中读取出所有的内容。
-     */
-    private String readHtmlFile(String path) {
-        File file = new File(path);
-        StringBuilder sb = new StringBuilder(1024);
-        char[] buffer = new char[512];
-
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            int len = 0;
-            while((len = reader.read(buffer)) > 0) {
-                sb.append(buffer, 0, len);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(reader != null) {
-                    reader.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return sb.toString();
-    }
-
-    /**
-     * 将内容保存为html文件。
-     */
-    private void saveHtmlFile(String filePath, String content) {
-        File file = new File(filePath);
-        File dir = file.getParentFile();
-        if(!dir.exists()) {
-            dir.mkdirs();
-        }
-
-        BufferedWriter writer = null;
-        try {
-            if(!file.exists()) {
-                file.createNewFile();
-            }
-
-            writer = new BufferedWriter(new FileWriter(filePath));
-            writer.write("<html><head><meta charset=\"gbk\"></head><body>");
-            writer.write(content);
-            writer.write("</body></html>");
-            writer.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if(writer != null) {
-                    writer.close();
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 }
