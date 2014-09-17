@@ -20,7 +20,7 @@
 </div>
 </div>
 <div region="east" style="width: 500px;" split="true">
-<div class="easyui-panel" title="商品管理" style="padding: 0px;" fit="true" border="false" id="product-panel"></div>
+<div class="easyui-panel" title="产品管理" style="padding: 0px;" fit="true" border="false" id="product-panel"></div>
 </div>
 
 <%--
@@ -38,7 +38,7 @@ function showProductList(rowIndex,rowData) {
     //alert("rowData.accountId" + rowData.accountId);
 	$("#product-panel").panel(
 		{
-			title :"商品管理 - [" + rowData.name + "]",
+			title :"产品管理 - [" + rowData.name + "]",
 			href:"productController.do?productListOfShop&connectId=" + rowData.id
 		}
 	);

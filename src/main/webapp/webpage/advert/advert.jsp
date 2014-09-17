@@ -10,9 +10,9 @@
         <title>修改</title>
     </c:if>
     <t:base type="jquery,easyui,tools"></t:base>
-    <link rel="stylesheet" href="/plug-in/kindeditor/themes/default/default.css"/>
-    <script src="/plug-in/kindeditor/kindeditor.js"></script>
-    <script src="/plug-in/kindeditor/lang/zh_CN.js"></script>
+    <link rel="stylesheet" href="plug-in/kindeditor/themes/default/default.css"/>
+    <script src="plug-in/kindeditor/kindeditor.js"></script>
+    <script src="plug-in/kindeditor/lang/zh_CN.js"></script>
     <script charset="utf-8" >
         KindEditor.ready(function(K) {
             var uploadbutton = K.uploadbutton({

@@ -4,9 +4,9 @@
 <html>
 <head>
     <title>商家信息</title>
-    <link rel="stylesheet" href="/plug-in/kindeditor/themes/default/default.css"/>
-    <script src="/plug-in/kindeditor/kindeditor.js"></script>
-    <script src="/plug-in/kindeditor/lang/zh_CN.js"></script>
+    <link rel="stylesheet" href="plug-in/kindeditor/themes/default/default.css"/>
+    <script src="plug-in/kindeditor/kindeditor.js"></script>
+    <script src="plug-in/kindeditor/lang/zh_CN.js"></script>
     <t:base type="jquery,easyui,tools,DatePicker"></t:base>
     <script charset="utf-8" >
         KindEditor.ready(function(K) {

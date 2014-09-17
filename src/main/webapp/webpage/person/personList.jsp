@@ -40,7 +40,7 @@ function showProductList(rowIndex,rowData) {
     //alert("rowData.accountId" + rowData.accountId);
 	$("#product-panel").panel(
 		{
-			title :"商品管理 - [" + rowData.name + "]",
+			title :"个人商品 - [" + rowData.name + "]",
 			href:"productController.do?productListOfPerson&connectId=" + rowData.id
 		}
 	);

@@ -10,9 +10,9 @@
         <title>修改</title>
     </c:if>
     <t:base type="jquery,easyui,tools"></t:base>
-    <link rel="stylesheet" href="/plug-in/kindeditor/themes/default/default.css"/>
-    <script src="/plug-in/kindeditor/kindeditor.js"></script>
-    <script src="/plug-in/kindeditor/lang/zh_CN.js"></script>
+    <link rel="stylesheet" href="plug-in/kindeditor/themes/default/default.css"/>
+    <script src="plug-in/kindeditor/kindeditor.js"></script>
+    <script src="plug-in/kindeditor/lang/zh_CN.js"></script>
     <script charset="utf-8" >
         KindEditor.ready(function(K) {
             var uploadbutton = K.uploadbutton({
@@ -39,6 +39,7 @@
         var editor;
         KindEditor.ready(function(K) {
             editor = K.create('textarea[name="htmlcontent"]', {
+                width : '300px',
                 allowPreviewEmoticons : false,
                 allowImageUpload : true,
                 allowFileManager: false,
@@ -59,9 +60,10 @@
 </head>
 <body style="overflow-y: hidden" scroll="no">
 <t:formvalid formid="formobj" dialog="true" layout="table" action="articleController.do?saveArticle" beforeSubmit="uploadHTML">
-    <input id="id" name="id" type="hidden" value="${article.id}">
-    <input id="connectId" name="connectId" type="hidden" value="${article.connectId}">
-    <table style="width: 800px;" cellpadding="0" cellspacing="1" class="formtable">
+    <input id="id" name="id" type="hidden" value="${article.id}"/>
+    <input id="connectId" name="connectId" type="hidden" value="${article.connectId}"/>
+    <input id="content" name="content"  type="hidden"/>
+    <table style="width: 450px;" cellpadding="0" cellspacing="1" class="formtable">
             <%--
                     <tr>
                         <td align="right" width="15%" nowrap><label class="Validform_label"> 用户名: </label></td>
@@ -86,14 +88,14 @@
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 标题: </label></td>
             <td class="value">
-                <input class="inputxt" name="title" value="${article.title}">
+                <input class="inputxt" name="title" value="${article.title}"/>
                     <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 描述: </label></td>
             <td class="value">
-                <input class="inputxt" name="description" value="${article.description}">
+                <input class="inputxt" name="description" value="${article.description}"/>
                     <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
@@ -101,21 +103,13 @@
             <td align="right" nowrap><label class="Validform_label"> 内容: </label></td>
             <td class="value">
                 <textarea id="htmltextarea" name="htmlcontent" style="width:100px;height:200px;visibility:hidden;">${article.content}</textarea>
-                <input class="inputxt" id="content" name="content"  type="hidden" value="${article.content}">
                     <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 关键字: </label></td>
             <td class="value">
-                <input class="inputxt" name="keyWords" value="${article.keyWords}">
-                    <%--<span class="Validform_checktip"/>--%>
-            </td>
-        </tr>
-        <tr>
-            <td align="right" nowrap><label class="Validform_label"> 网址: </label></td>
-            <td class="value">
-                <input class="inputxt" name="webLink" value="${article.webLink}">
+                <input class="inputxt" name="keyWords" value="${article.keyWords}"/>
                     <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
