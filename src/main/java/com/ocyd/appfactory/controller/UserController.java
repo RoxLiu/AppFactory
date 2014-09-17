@@ -31,7 +31,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @ClassName: UserController
- * @Description: TODO(用户管理处理类)
  * @author 张代浩
  */
 @Scope("prototype")
@@ -142,9 +141,9 @@ public class UserController {
                     req.setAttribute("name", nameBuilder.substring(0, nameBuilder.length() - 1));
                 }
             }
-            return new ModelAndView("system/user/appUser");
+            return new ModelAndView("user/appUser");
         } else {
-            return new ModelAndView("system/user/user");
+            return new ModelAndView("user/user");
         }
     }
 
@@ -221,7 +220,7 @@ public class UserController {
      */
     @RequestMapping(params = "modules")
     public String modules() {
-        return "system/user/modules";
+        return "user/modules";
     }
 
     /**
@@ -352,7 +351,7 @@ public class UserController {
 
     private TShopModule findInList(List<TShopModule> moduleList, String moduleId) {
         for(TShopModule shopModule : moduleList) {
-            if(shopModule.getModuleId() == moduleId) {
+            if(shopModule.getModuleId().equals(moduleId)) {
                 return shopModule;
             }
         }
@@ -369,7 +368,7 @@ public class UserController {
 	public String changepassword(HttpServletRequest request) {
 		TUser user = ResourceUtil.getCurrentSessionUser();
 		request.setAttribute("user", user);
-		return "system/user/changepassword";
+		return "user/changepassword";
 	}
 	
 	
@@ -415,7 +414,7 @@ public class UserController {
 //			idandname(req, user);
 			LogUtil.info(user.getPassword() + "-----" + user.getAccountName());
 		}
-		return new ModelAndView("system/user/adminchangepwd");
+		return new ModelAndView("user/adminchangepwd");
 	}
 
 	
