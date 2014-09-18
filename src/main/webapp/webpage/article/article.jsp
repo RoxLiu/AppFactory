@@ -106,13 +106,15 @@
                     <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
+<%--
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 关键字: </label></td>
             <td class="value">
                 <input class="inputxt" name="keyWords" value="${article.keyWords}"/>
-                    <%--<span class="Validform_checktip"/>--%>
+                    &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
         </tr>
+--%>
     </table>
 </t:formvalid>
 </body>

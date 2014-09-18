@@ -10,7 +10,9 @@
     <t:dgCol title="标题" field="title" query="false"/>
     <t:dgCol title="描述" field="description" query="false"/>
     <t:dgCol title="URL" field="content" query="false"/>
+<%--
     <t:dgCol title="关键字" field="keyWords" query="false"/>
+--%>
     <%--<t:dgCol title="状态" field="status" sortable="false" replace="正常_1,禁用_0,删除_-1" />--%>
     <t:dgCol title="创建者" field="createUserId" query="false"/>
     <t:dgCol title="发布者" field="publishUserId" query="false"/>
