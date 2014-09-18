@@ -33,6 +33,7 @@
                 <select id="moduleId" name="moduleId" value="${shopModule.moduleId}" ignore="ignore">
                     <option value="1">资讯</option>
                     <option value="2">商家</option>
+                    <option value="3">个人</option>
                 </select>
                 <span class="Validform_checktip"></span>
             </td>

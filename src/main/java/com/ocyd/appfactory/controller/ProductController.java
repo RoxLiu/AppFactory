@@ -140,18 +140,17 @@ public class ProductController {
             found.setOrderable(product.getOrderable());
             found.setWebLink(product.getWebLink());
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdateTime(date);
 
             systemService.updateEntity(found);
             message = "商品[: " + found.getName() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
+            product.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             product.setStatus(1); // 正常。
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             product.setAddTime(date);
             product.setLastUpdateTime(date);
 
@@ -239,14 +238,14 @@ public class ProductController {
             String relative = fileService.saveHtmlFile(found.getWebLink(), product.getWebLink());
             found.setWebLink(relative);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdateTime(date);
 
             systemService.updateEntity(found);
             message = "商品[: " + found.getName() + "]更新成功.";
             systemService.addLog(message, Globals.Log_Type_UPDATE, Globals.Log_Leavel_INFO);
         } else {
+            product.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             product.setStatus(1); // 正常。
 
             //将提交上来的content保存为文件，然后将路径存放到content字段。
@@ -255,8 +254,7 @@ public class ProductController {
                 product.setWebLink(relative);
             }
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             product.setAddTime(date);
             product.setLastUpdateTime(date);
 

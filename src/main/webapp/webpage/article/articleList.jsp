@@ -14,9 +14,11 @@
     <%--<t:dgCol title="状态" field="status" sortable="false" replace="正常_1,禁用_0,删除_-1" />--%>
     <t:dgCol title="创建者" field="createUserId" query="false"/>
     <t:dgCol title="发布者" field="publishUserId" query="false"/>
+<%--
     <t:dgCol title="创建时间" field="createTime" query="false"/>
     <t:dgCol title="发布时间" field="publishTime" query="false"/>
     <t:dgCol title="最后更新时间" field="lastUpdate" query="false"/>
+--%>
     <t:dgCol title="网址" field="webLink" query="false"/>
 	<t:dgCol title="操作" field="opt"/>
 	<t:dgDelOpt title="删除" url="articleController.do?del&id={id}" />

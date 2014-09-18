@@ -198,8 +198,8 @@ public class UserController {
                 user.setStatus(TUser.STATUS_NORMAL); // 正常。
                 user.setType(TUser.TYPE_TERMINAL_USER); //设为普通用户
                 user.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                user.setCreateTime(formatter.format(new Date()));
+                String date = String.valueOf((int)(System.currentTimeMillis()/1000));
+                user.setCreateTime(date);
                 systemService.save(user);
                 message = "用户: " + user.getAccountName() + "添加成功";
 
@@ -271,8 +271,7 @@ public class UserController {
             //1. 创建shop_account
             //2. 创建user_account
             //3. 创建shop_module
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
 
             TShopAccount shop = new TShopAccount();
             shop.setAccountName(user.getAccountName());
@@ -307,8 +306,7 @@ public class UserController {
 
     private void saveShopModule(TUser user, String modules) {
         // 同步删除用户角色关联表
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = formatter.format(new Date());
+        String date = String.valueOf((int)(System.currentTimeMillis()/1000));
         List<TShopModule> moduleList = systemService.findByProperty(TShopModule.class, "shopId", user.getShopId());
 
         //1.先将所有的数据设为删除。
@@ -539,8 +537,7 @@ public class UserController {
 
                 systemService.save(account);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                String date = formatter.format(new Date());
+                String date = String.valueOf((int)(System.currentTimeMillis()/1000));
 
                 List<TShopModule> moduleList = systemService.findByProperty(TShopModule.class, "shopId", user.getShopId());
                 for (TShopModule module : moduleList) {

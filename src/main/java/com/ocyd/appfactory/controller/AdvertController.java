@@ -117,8 +117,7 @@ public class AdvertController {
             found.setIcon(article.getIcon());
             found.setWebLink(article.getWebLink());
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdate(date);
             systemService.updateEntity(found);
             message = "广告[" + found.getName() + "]更新成功.";
@@ -127,8 +126,7 @@ public class AdvertController {
             article.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             article.setStatus(1); // 正常。
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             article.setLastUpdate(date);
             systemService.save(article);
             message = "广告[" + article.getName() + "]添加成功.";
@@ -153,8 +151,8 @@ public class AdvertController {
         TAdvert found = systemService.getEntity(TAdvert.class, advert.getId());
 
         if(found.getId() > 0) {
-            //先删除对应的图标文件
-            fileService.deleteFile(found.getIcon());
+//            //先删除对应的图标文件
+//            fileService.deleteFile(found.getIcon());
 
             found.setStatus(TAdvert.STATUS_DELETED);
             systemService.save(found);

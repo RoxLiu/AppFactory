@@ -112,8 +112,7 @@ public class ModuleController {
             found.setName(module.getName());
             found.setDescription(module.getDescription());
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdate(date);
 
             systemService.updateEntity(found);
@@ -122,8 +121,7 @@ public class ModuleController {
         } else {
             module.setStatus(1); // 正常。
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             module.setCreateTime(date);
             module.setLastUpdate(date);
             systemService.save(module);

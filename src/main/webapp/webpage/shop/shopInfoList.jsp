@@ -11,7 +11,9 @@
 	<t:dgCol title="描述" field="description" query="false"/>
 	<t:dgCol title="图标" field="icon" image="true" imageSize="24,24" query="false"/>
     <t:dgCol title="地址" field="address" query="false"/>
+<%--
 	<t:dgCol title="最后更新时间" field="lastUpdate" query="false"/>
+--%>
 	<t:dgCol title="操作" field="opt"/>
 	<t:dgDelOpt title="删除" url="shopController.do?del&id={id}" />
     <t:dgToolBar title="添加" icon="icon-add" url="shopController.do?addorupdate&connectId=${connectId}" funname="add"/>

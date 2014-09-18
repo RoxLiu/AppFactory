@@ -9,7 +9,7 @@
     <t:dgCol title="广告名" field="name" query="false"/>
     <t:dgCol title="图标" field="icon" image="true" imageSize="24,24" query="false"/>
     <t:dgCol title="URL" field="webLink" query="false"/>
-    <t:dgCol title="最后更新时间" field="lastUpdate" query="false"/>
+    <%--<t:dgCol title="最后更新时间" field="lastUpdate" query="false"/>--%>
 	<t:dgCol title="操作" field="opt"/>
 	<t:dgDelOpt title="删除" url="advertController.do?del&id={id}" />
     <t:dgToolBar title="添加" icon="icon-add" url="advertController.do?addorupdate" funname="add"/>

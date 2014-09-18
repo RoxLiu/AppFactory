@@ -131,8 +131,7 @@ public class ArticleController {
             found.setDescription(article.getDescription());
             found.setKeyWords(article.getKeyWords());
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdate(date);
             found.setPublishUserId("" + user.getId());
             systemService.updateEntity(found);
@@ -150,8 +149,7 @@ public class ArticleController {
             article.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             article.setStatus(1); // 正常。
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             article.setCreateTime(date);
             article.setPublishTime(date);
             article.setLastUpdate(date);
@@ -180,9 +178,8 @@ public class ArticleController {
         TArticle found = systemService.getEntity(TArticle.class, article.getId());
 
         if(found.getId() > 0) {
-            //先删除对应的图标文件
-            fileService.deleteFile(found.getIcon());
-
+//            //先删除对应的图标文件
+//            fileService.deleteFile(found.getIcon());
             found.setStatus(TArticle.STATUS_DELETED);
             systemService.save(found);
         }

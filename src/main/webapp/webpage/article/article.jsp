@@ -21,8 +21,8 @@
                 url : 'fileUploadController.do?saveFiles',
                 afterUpload : function(data) {
                     if (data.error === 0) {
-                        var url = K.formatUrl(data.url, 'absolute');
-                        K('#url').val(url);
+                        //var url = K.formatUrl(data.url, 'absolute');
+                        K('#url').val(data.url);
                     } else {
                         alert(data.message);
                     }

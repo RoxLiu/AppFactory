@@ -1,7 +1,6 @@
 package com.ocyd.appfactory.controller;
 
 import com.ocyd.appfactory.service.SystemService;
-import com.ocyd.jeecgframework.core.util.ApplicationContextUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
@@ -11,12 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -65,10 +64,15 @@ public class FileUploadController {
         Iterator<String> itr = request.getFileNames();
 
         //文件保存目录路径
-        String savePath = request.getSession().getServletContext().getRealPath("/") + "upload/image";
+        String savePath = request.getSession().getServletContext().getRealPath("/");
+        if(savePath.endsWith("/")) {
+            savePath += "upload/image/";
+        } else {
+            savePath += "/upload/image/";
+        }
 
         //文件保存目录URL，tomcat6中以“/”开始的地址
-        String saveUrl = request.getContextPath() + "upload/image";
+        String saveUrl = "upload/image/";
 
 
         //最大文件大小

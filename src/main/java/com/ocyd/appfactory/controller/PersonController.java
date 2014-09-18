@@ -123,8 +123,7 @@ public class PersonController {
             found.setPhotoList(shopInfo.getPhotoList());
             found.setWebLink(shopInfo.getWebLink());
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdate(date);
 
             shopService.updateEntity(found);
@@ -135,8 +134,7 @@ public class PersonController {
             shopInfo.setStatus(1); // 正常。
             shopInfo.setType(2); //设为普通用户
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String date = formatter.format(new Date());
+            String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             shopInfo.setCreateTime(date);
             shopInfo.setLastUpdate(date);
             shopService.save(shopInfo);
@@ -163,8 +161,8 @@ public class PersonController {
         AjaxJson j = new AjaxJson();
         TShopInfo shopInfo = shopService.getEntity(TShopInfo.class, shop.getId());
 
-        //先删除对应的图标文件
-        fileService.deleteFile(shopInfo.getIcon());
+//        //先删除对应的图标文件
+//        fileService.deleteFile(shopInfo.getIcon());
         shopService.delete(shopInfo);
 
 

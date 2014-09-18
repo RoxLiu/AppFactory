@@ -2,6 +2,7 @@ package com.ocyd.appfactory.service.impl;
 
 import com.ocyd.jeecgframework.core.util.ApplicationContextUtil;
 import com.ocyd.appfactory.service.UploadFileService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -16,15 +17,22 @@ import java.util.Date;
  */
 @Service("uploadFileService")
 public class UploadFileServiceImpl implements UploadFileService{
+    private static final Logger logger = Logger.getLogger(UploadFileServiceImpl.class);
 
     @Override
-    public boolean deleteFile(String file) {
-        if(file != null && !file.equals("")) {
-            String rootPath = ((WebApplicationContext)ApplicationContextUtil.getContext()).getServletContext().getRealPath("/");
-            File f = new File(rootPath + file);
+    public boolean deleteFile(String relative) {
+        if(relative != null && !relative.equals("")) {
+            String realPath = ((WebApplicationContext)ApplicationContextUtil.getContext()).getServletContext().getRealPath(relative);
 
-            if(f.exists()) {
-                return f.delete();
+            if(realPath != null) {
+                try {
+                    File f = new File(realPath);
+                    if(f.exists()) {
+                        return f.delete();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -37,8 +45,7 @@ public class UploadFileServiceImpl implements UploadFileService{
     }
 
     private String composeFileRelativePath(String category) {
-        String contextRoot = ((WebApplicationContext)ApplicationContextUtil.getContext()).getServletContext().getContextPath();
-        StringBuilder sb = new StringBuilder(contextRoot);
+        StringBuilder sb = new StringBuilder();
         sb.append("upload/").append(category).append("/");
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -60,14 +67,16 @@ public class UploadFileServiceImpl implements UploadFileService{
         StringBuilder sb = new StringBuilder(1024);
         char[] buffer = new char[512];
 
-        BufferedReader reader = null;
+        InputStreamReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader(file));
+            reader = new InputStreamReader(new FileInputStream(file), "UTF-8");
             int len = 0;
             while((len = reader.read(buffer)) > 0) {
                 sb.append(buffer, 0, len);
             }
         } catch (Exception e) {
+            logger.error("Error Occurred: " + e.getMessage());
+            logger.error(e);
             e.printStackTrace();
         } finally {
             try {
@@ -100,18 +109,20 @@ public class UploadFileServiceImpl implements UploadFileService{
             dir.mkdirs();
         }
 
-        BufferedWriter writer = null;
+        OutputStreamWriter writer = null;
         try {
             if(!file.exists()) {
                 file.createNewFile();
             }
 
-            writer = new BufferedWriter(new FileWriter(savePath));
-            writer.write("<html><head><meta charset=\"gbk\"></head><body>");
+            writer = new OutputStreamWriter(new FileOutputStream(savePath), "UTF-8");
+            writer.write("<html><head><meta charset=\"UTF-8\"></head><body>");
             writer.write(content);
             writer.write("</body></html>");
             writer.flush();
         } catch (Exception e) {
+            logger.error("Error Occurred: " + e.getMessage());
+            logger.error(e);
             e.printStackTrace();
         } finally {
             try {

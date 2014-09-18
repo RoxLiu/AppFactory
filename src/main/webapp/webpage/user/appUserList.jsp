@@ -12,7 +12,9 @@
     <t:dgCol title="推荐码" field="sendCode" query="false"/>
     <t:dgCol title="状态" sortable="false" field="status" replace="正常_1,锁定_-2,删除_-1" />
     <t:dgCol title="类型" field="type" replace="超级管理员_0,管理用户_1,普通用户_2"/>
+<%--
     <t:dgCol title="创建时间" field="createTime" query="false"/>
+--%>
     <t:dgCol title="是否在线" field="online" replace="否_0,是_1"/>
     <t:dgCol title="操作" field="opt"/>
     <t:dgDelOpt title="删除" url="userController.do?del&id={id}&userName={userName}" />
