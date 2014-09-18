@@ -108,6 +108,9 @@ public class PersonController {
         AjaxJson j = new AjaxJson();
         if (shopInfo.getId() > 0) {
             TShopInfo found = shopService.getEntity(TShopInfo.class, shopInfo.getId());
+            found.setName(shopInfo.getName());
+            found.setCompany(shopInfo.getCompany());
+            found.setBrief(shopInfo.getBrief());
             found.setPhone(shopInfo.getPhone());
             found.setDescription(shopInfo.getDescription());
 
@@ -122,6 +125,7 @@ public class PersonController {
             found.setLat(shopInfo.getLat());
             found.setPhotoList(shopInfo.getPhotoList());
             found.setWebLink(shopInfo.getWebLink());
+            found.setSecondTitle(shopInfo.getSecondTitle());
 
             String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdate(date);
