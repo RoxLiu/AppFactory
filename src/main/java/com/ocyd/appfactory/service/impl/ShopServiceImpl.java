@@ -20,7 +20,7 @@ public class ShopServiceImpl extends CommonServiceImpl implements ShopService {
 
     @Override
     public void delete(TShopInfo shop) {
-        List<TProduct> products = commonDao.findByProperty(TProduct.class, "shopAccountId", shop.getId());
+        List<TProduct> products = commonDao.findByProperty(TProduct.class, "shopId", String.valueOf(shop.getId()));
 
         //设置删除状态，不从数据库中删除
         for(TProduct product : products) {
