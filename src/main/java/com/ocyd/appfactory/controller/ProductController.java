@@ -102,6 +102,12 @@ public class ProductController {
     public ModelAndView addOrUpdate(HttpServletRequest req, TProduct product) {
         if (product.getId() > 0) {
             product = systemService.getEntity(TProduct.class, product.getId());
+
+            String relative = product.getWebLink();
+
+            if(relative != null) {
+                product.setWebLink(fileService.readHtmlFile(relative));
+            }
         }
 
         req.setAttribute("product", product);
@@ -138,7 +144,10 @@ public class ProductController {
             found.setStartDiscountTime(product.getStartDiscountTime());
             found.setEndDiscountTime(product.getEndDiscountTime());
             found.setOrderable(product.getOrderable());
-            found.setWebLink(product.getWebLink());
+
+            //内容保存为html，然后将相对路径保存到数据库。
+            String relative = fileService.saveHtmlFile(found.getWebLink(), product.getWebLink());
+            found.setWebLink(relative);
 
             String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             found.setLastUpdateTime(date);
@@ -149,6 +158,12 @@ public class ProductController {
         } else {
             product.setShopId(ResourceUtil.getCurrentSessionUser().getShopId());
             product.setStatus(1); // 正常。
+
+            //将提交上来的content保存为文件，然后将路径存放到content字段。
+            if(product.getWebLink() != null) {
+                String relative = fileService.saveHtmlFile(null, product.getWebLink());
+                product.setWebLink(relative);
+            }
 
             String date = String.valueOf((int)(System.currentTimeMillis()/1000));
             product.setAddTime(date);

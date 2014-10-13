@@ -19,7 +19,7 @@
                 allowImageRemote: false,
                 uploadJson: 'fileUploadController.do?saveFiles',
                 fileManagerJson: 'fileUploadController.do?saveFiles',
-                afterUploadafterUpload : function(url) {
+                afterUpload: function(url) {
                     alert(url);
                 },
                 items : [

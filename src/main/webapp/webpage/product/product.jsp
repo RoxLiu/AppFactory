@@ -4,18 +4,41 @@
 <html>
 <head>
     <title>商品信息</title>
-    <t:base type="jquery,easyui,tools"></t:base>
-<%--
+    <t:base type="jquery,easyui,tools"/>
     <link rel="stylesheet" href="plug-in/kindeditor/themes/default/default.css" />
     <script charset="utf-8"  src="plug-in/kindeditor/kindeditor.js"/>
---%>
+    <script src="plug-in/kindeditor/lang/zh_CN.js"></script>
+    <script charset="utf-8" >
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="htmlcontent"]', {
+                width : '300px',
+                allowPreviewEmoticons : false,
+                allowImageUpload : true,
+                allowFileManager: false,
+                allowImageRemote: false,
+                uploadJson: 'fileUploadController.do?saveFiles',
+                fileManagerJson: 'fileUploadController.do?saveFiles',
+                afterUpload: function(url) {
+                    alert(url);
+                },
+                items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+            });
+        });
 
-
+        function uploadHTML() {
+            document.getElementById("webLink").value = editor.html();
+        }
+    </script>
 </head>
 <body style="overflow-y: hidden">
-<t:formvalid formid="formobj" dialog="true" layout="table" action="productController.do?saveProduct">
+<t:formvalid formid="formobj" dialog="true" layout="table" action="productController.do?saveProduct"  beforeSubmit="uploadHTML">
     <input id="id" name="id" type="hidden" value="${product.id}">
     <input id="connectId" name="connectId" type="hidden" value="${product.connectId}">
+    <input id="webLink" name="webLink"  type="hidden"/>
     <table style="width: 650px;" cellpadding="0" cellspacing="1" class="formtable">
             <%--
                     <tr>
@@ -66,6 +89,20 @@
                 <%--<span class="Validform_checktip"/>--%>
             </td>
         </tr>
+        <tr>
+            <td align="right" nowrap><label class="Validform_label"> 价格: </label></td>
+            <td class="value">
+                <input class="inputxt" name="nowPrice" value="${product.nowPrice}">
+                    <%--<span class="Validform_checktip"/>--%>
+            </td>
+        </tr>
+        <tr>
+            <td align="right" nowrap><label class="Validform_label"> 链接: </label></td>
+            <td class="value">
+                <textarea id="htmltextarea" name="htmlcontent" style="width:100px;height:200px;visibility:hidden;">${product.webLink}</textarea>
+                    <%--<span class="Validform_checktip"/>--%>
+            </td>
+        </tr>
 <%--
         <tr>
             <td align="right" nowrap><label class="Validform_label"> 性别: </label></td>
@@ -93,13 +130,6 @@
             <td align="right" nowrap><label class="Validform_label"> 原价: </label></td>
             <td class="value">
                 <input class="inputxt" name="normalPrice" value="${product.normalPrice}">
-                &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
-            </td>
-        </tr>
-        <tr>
-            <td align="right" nowrap><label class="Validform_label"> 现价: </label></td>
-            <td class="value">
-                <input class="inputxt" name="nowPrice" value="${product.nowPrice}">
                 &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
         </tr>
@@ -152,13 +182,7 @@
                     &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
             </td>
         </tr>
-        <tr>
-            <td align="right" nowrap><label class="Validform_label"> 链接: </label></td>
-            <td class="value">
-                <input class="inputxt" name="webLink" value="${product.webLink}">
-                    &lt;%&ndash;<span class="Validform_checktip"/>&ndash;%&gt;
-            </td>
-        </tr>--%>
+--%>
     </table>
 </t:formvalid>
 </body>

@@ -8,6 +8,8 @@
 	<t:dgCol title="颜色" field="color" query="false"></t:dgCol>
 	<t:dgCol title="尺寸" sortable="size" field="status"></t:dgCol>
 	<t:dgCol title="简介" field="brief" query="false"></t:dgCol>
+    <t:dgCol title="价格" field="nowPrice" query="false"></t:dgCol>
+
     <!--
 	<t:dgCol title="操作" field="opt"></t:dgCol>
 	<t:dgDelOpt title="删除" url="moduleController.do?del&id={id}&userName={userName}" />
